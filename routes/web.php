@@ -10,7 +10,7 @@ use App\Http\Controllers\User\ProfilController;
 use App\Http\Controllers\User\RiwayatSuratController;
 use App\Http\Controllers\LandingController;
 
-Route::get('/', [LandingController::class, 'index']);
+Route::get('/', [LandingController::class, 'index'])->name('landing');
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
