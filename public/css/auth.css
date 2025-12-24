@@ -1,5 +1,5 @@
 :root{
-    --primary:#194E85;
+    --primary:#0B132B;
     --primary2:#163F6C;
     --bg:#F6F8FC;
     --text:#0B1220;
@@ -177,7 +177,7 @@
   /* RIGHT (PROMO) */
   .right{
     position: relative;
-    background: linear-gradient(135deg, #194E85, #0E2E56);
+    background: linear-gradient(135deg, #0B132B, #0E2E56);
     color: #fff;
     padding: clamp(22px, 3vw, 46px);
     overflow: hidden;
@@ -277,7 +277,7 @@
     padding: 8px;
   
     cursor: pointer;
-    color: #194E85;
+    color: #0B132B;
   
     display: inline-flex;
     align-items: center;
@@ -297,7 +297,7 @@
   .pw-btn.is-on .eye-off{ display: block; }
   
   .pw-btn:hover{
-    background: #194E85;
+    background: #0B132B;
     color: #ffffff;
   }
   
