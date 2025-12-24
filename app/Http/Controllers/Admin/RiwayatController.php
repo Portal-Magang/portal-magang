@@ -1,0 +1,33 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use App\Models\Pengajuan;
+use Illuminate\Http\Request;
+
+class RiwayatController extends Controller
+{
+    public function index(Request $request)
+    {
+        $status = $request->query('status');
+
+        $query = Pengajuan::with('user')
+            ->whereIn('status', ['diterima', 'ditolak'])
+            ->latest();
+
+        if (in_array($status, ['diterima', 'ditolak'])) {
+            $query->where('status', $status);
+        }
+
+        $pengajuans = $query->get();
+
+        return view('admin.riwayat.index', compact('pengajuans', 'status'));
+    }
+
+    public function detail($id)
+    {
+        $pengajuan = Pengajuan::with('user')->findOrFail($id);
+        return view('admin.riwayat.detail', compact('pengajuan'));
+    }
+}

@@ -9,6 +9,8 @@ class Pengajuan extends Model
 {
     use HasFactory;
 
+    protected $table = 'pengajuan';
+
     protected $fillable = [
         'user_id',
         'asal_instansi',
@@ -16,7 +18,6 @@ class Pengajuan extends Model
         'no_hp',
         'surat_pengantar',
         'status',
-        'tanggal_ajuan',
         'catatan_admin',
     ];
 

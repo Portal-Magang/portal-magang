@@ -11,7 +11,8 @@ class VerifikasiController extends Controller
     // list pengajuan (menunggu)
     public function index()
     {
-        $pengajuans = Pengajuan::where('status', 'menunggu')
+        $pengajuans = Pengajuan::with('user')
+            ->where('status', 'menunggu')
             ->latest()
             ->get();
 
@@ -21,7 +22,7 @@ class VerifikasiController extends Controller
     // detail pengajuan
     public function detail($id)
     {
-        $pengajuan = Pengajuan::findOrFail($id);
+        $pengajuan = Pengajuan::with('user')->findOrFail($id);
         return view('admin.verifikasi.detail', compact('pengajuan'));
     }
 

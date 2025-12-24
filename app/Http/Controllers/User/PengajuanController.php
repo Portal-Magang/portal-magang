@@ -10,15 +10,24 @@ use Illuminate\Support\Facades\Storage;
 
 class PengajuanController extends Controller
 {
-    // tampilkan form
     public function create()
     {
         return view('user.pengajuan.create');
     }
 
-    // simpan pengajuan
     public function store(Request $request)
     {
+        // Cegah spam: kalau masih ada pengajuan "menunggu", tidak bisa ajukan surat lain
+        $exists = Pengajuan::where('user_id', Auth::id())
+            ->where('status', 'menunggu')
+            ->exists();
+
+        if ($exists) {
+            return back()
+                ->withErrors(['surat_pengantar' => 'Masih ada pengajuan yang menunggu.'])
+                ->withInput();
+        }
+
         $request->validate([
             'asal_instansi'   => 'required|string|max:255',
             'jurusan'         => 'required|string|max:255',
@@ -36,13 +45,11 @@ class PengajuanController extends Controller
             'no_hp'           => $request->no_hp,
             'surat_pengantar' => $filePath,
             'status'          => 'menunggu',
-            'tanggal_ajuan'   => now(),
         ]);
 
         return redirect('/riwayat')->with('success', 'Pengajuan berhasil dikirim.');
     }
 
-    // riwayat pengajuan user
     public function riwayat()
     {
         $pengajuans = Pengajuan::where('user_id', Auth::id())
@@ -50,5 +57,23 @@ class PengajuanController extends Controller
             ->get();
 
         return view('user.pengajuan.riwayat', compact('pengajuans'));
+    }
+
+    public function downloadSurat($id)
+    {
+        $pengajuan = Pengajuan::findOrFail($id);
+
+        // user hanya boleh download miliknya, admin boleh semua
+        if (Auth::user()->role !== 'admin' && $pengajuan->user_id !== Auth::id()) {
+            abort(403, 'AKSES DITOLAK');
+        }
+
+        $path = storage_path('app/public/' . $pengajuan->surat_pengantar);
+
+        if (!file_exists($path)) {
+            abort(404, 'File surat tidak ditemukan');
+        }
+
+        return response()->download($path);
     }
 }
