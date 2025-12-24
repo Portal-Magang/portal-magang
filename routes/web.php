@@ -31,8 +31,8 @@ Route::middleware(['auth', 'role:user'])->group(function () {
 });
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/pengajuan/{id}/surat', [PengajuanController::class, 'downloadSurat'])
-        ->name('pengajuan.surat');
+    Route::get('/pengajuan/{id}/surat/preview', [PengajuanController::class, 'previewSurat'])->name('pengajuan.surat.preview');
+    Route::get('/pengajuan/{id}/surat', [PengajuanController::class, 'downloadSurat'])->name('pengajuan.surat');
 });
 
 
@@ -43,6 +43,7 @@ Route::prefix('admin')
         Route::get('/verifikasi', [VerifikasiController::class, 'index'])->name('admin.verifikasi.index');
         Route::get('/verifikasi/{id}', [VerifikasiController::class, 'detail'])->name('admin.verifikasi.detail');
         Route::post('/verifikasi/{id}', [VerifikasiController::class, 'updateStatus'])->name('admin.verifikasi.update');
+        Route::get('/pengajuan/{id}/surat/download', [PengajuanController::class, 'downloadSurat'])->name('admin.pengajuan.surat.download');
         Route::get('/riwayat', [RiwayatController::class, 'index'])->name('admin.riwayat.index');
         Route::get('/riwayat/{id}', [RiwayatController::class, 'detail'])->name('admin.riwayat.detail');
     });

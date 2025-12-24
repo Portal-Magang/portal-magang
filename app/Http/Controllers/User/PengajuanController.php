@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Pengajuan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 
 class PengajuanController extends Controller
 {
@@ -17,7 +16,7 @@ class PengajuanController extends Controller
 
     public function store(Request $request)
     {
-        // Cegah spam: kalau masih ada pengajuan "menunggu", tidak bisa ajukan surat lain
+        // Cegah spam: masih ada pengajuan menunggu
         $exists = Pengajuan::where('user_id', Auth::id())
             ->where('status', 'menunggu')
             ->exists();
@@ -35,6 +34,7 @@ class PengajuanController extends Controller
             'surat_pengantar' => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
         ]);
 
+        // simpan file ke storage/app/public/surat_pengantar
         $filePath = $request->file('surat_pengantar')
             ->store('surat_pengantar', 'public');
 
@@ -59,19 +59,40 @@ class PengajuanController extends Controller
         return view('user.pengajuan.riwayat', compact('pengajuans'));
     }
 
+    private function suratPath(Pengajuan $pengajuan): string
+    {
+        return storage_path('app/public/' . $pengajuan->surat_pengantar);
+    }
+
+    public function previewSurat($id)
+    {
+        $pengajuan = Pengajuan::findOrFail($id);
+
+        if (auth::user()->role !== 'admin' && $pengajuan->user_id !== auth::id()) {
+            abort(403);
+        }
+
+        $path = $this->suratPath($pengajuan);
+
+        if (!file_exists($path)) {
+            abort(404);
+        }
+
+        return response()->file($path);
+    }
+
     public function downloadSurat($id)
     {
         $pengajuan = Pengajuan::findOrFail($id);
 
-        // user hanya boleh download miliknya, admin boleh semua
-        if (Auth::user()->role !== 'admin' && $pengajuan->user_id !== Auth::id()) {
-            abort(403, 'AKSES DITOLAK');
+        if (auth::user()->role !== 'admin') {
+            abort(403);
         }
 
-        $path = storage_path('app/public/' . $pengajuan->surat_pengantar);
+        $path = $this->suratPath($pengajuan);
 
         if (!file_exists($path)) {
-            abort(404, 'File surat tidak ditemukan');
+            abort(404);
         }
 
         return response()->download($path);
