@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Pengajuan extends Model
 {
     use HasFactory;
+    protected $table = 'pengajuan';
 
     protected $fillable = [
         'user_id',
@@ -16,7 +17,6 @@ class Pengajuan extends Model
         'no_hp',
         'surat_pengantar',
         'status',
-        'tanggal_ajuan',
         'catatan_admin',
     ];
 
