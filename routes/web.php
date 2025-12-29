@@ -11,6 +11,13 @@ use App\Http\Controllers\User\RiwayatSuratController;
 use App\Http\Controllers\LandingController;
 
 Route::get('/', [LandingController::class, 'index'])->name('landing');
+Route::get('/force-logout', function () {
+    \Illuminate\Support\Facades\Auth::logout();
+    request()->session()->invalidate();
+    request()->session()->regenerateToken();
+
+    return redirect('/')->with('success', 'Berhasil logout.');
+});
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
@@ -36,9 +43,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 
-Route::prefix('admin')
-    ->middleware(['auth', 'role:admin'])
-    ->group(function () {
+Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
         Route::get('/dashboard', [AdminDashboard::class, 'index']);
         Route::get('/verifikasi', [VerifikasiController::class, 'index'])->name('admin.verifikasi.index');
         Route::get('/verifikasi/{id}', [VerifikasiController::class, 'detail'])->name('admin.verifikasi.detail');
