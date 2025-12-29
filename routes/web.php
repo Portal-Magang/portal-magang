@@ -35,6 +35,9 @@ Route::middleware(['auth', 'role:user'])->group(function () {
     Route::get('/riwayat-surat/{id}', [RiwayatSuratController::class, 'detail'])->name('user.riwayat.detail');
     Route::get('/profil', [ProfilController::class, 'index'])->name('user.profil.index');
     Route::post('/profil/password', [ProfilController::class, 'updatePassword'])->name('user.profil.password');
+    Route::get('/profil/password', function () {
+        return view('user.profil.password');
+    })->name('user.profil.password.form');
 });
 
 Route::middleware(['auth'])->group(function () {

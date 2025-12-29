@@ -20,8 +20,7 @@
                             
                             <!-- Institution and Major -->
                             <div class="text-sm text-gray-600 space-y-1">
-                                <p><span class="font-semibold">Asal Instansi:</span> {{ $pengajuan->asal_instansi }}</p>
-                                <p><span class="font-semibold">Jurusan:</span> {{ $pengajuan->jurusan }}</p>
+                                <p><span class="font-semibold">Catatan Instansi:</span> {{ $pengajuan->catatan_admin }}</p>
                             </div>
                         </div>
                     </div>
