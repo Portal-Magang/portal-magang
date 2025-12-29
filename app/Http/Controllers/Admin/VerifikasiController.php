@@ -46,6 +46,6 @@ class VerifikasiController extends Controller
             ->send(new StatusPengajuanMail($pengajuan));
 
         return redirect('/admin/verifikasi')
-            ->with('success', 'Pengajuan berhasil diperbarui');
+            ->with('Pengajuan berhasil diperbarui');
     }
 }

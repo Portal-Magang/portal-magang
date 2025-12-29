@@ -10,25 +10,16 @@ return new class extends Migration {
         Schema::create('pengajuan', function (Blueprint $table) {
             $table->id();
 
-            // relasi ke users
             $table->foreignId('user_id')
                   ->constrained('users')
                   ->onDelete('cascade');
-
-            // data pengajuan
             $table->string('asal_instansi');
             $table->string('jurusan');
             $table->string('no_hp');
             $table->string('surat_pengantar');
-
-            // status verifikasi
             $table->enum('status', ['menunggu', 'diterima', 'ditolak'])
                   ->default('menunggu');
-
-            // catatan admin
             $table->text('catatan_admin')->nullable();
-
-            // otomatis tanggal pengajuan
             $table->timestamps();
         });
     }

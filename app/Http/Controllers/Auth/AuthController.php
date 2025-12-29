@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
+use Illuminate\Support\Facades\Hash;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
@@ -30,11 +31,11 @@ class AuthController extends Controller
         User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => $request->password,
+            'password' => Hash::make ($request->password),
             'role' => 'user',        
         ]);
 
-        return redirect('/login')->with('success', 'Registrasi berhasil, silakan login.');
+        return redirect('/login')->with('Registrasi berhasil, silakan login.');
     }
 
     public function login(Request $request)

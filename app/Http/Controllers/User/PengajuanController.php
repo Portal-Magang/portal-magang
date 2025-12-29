@@ -47,7 +47,7 @@ class PengajuanController extends Controller
             'status'          => 'menunggu',
         ]);
 
-        return redirect('/riwayat')->with('success', 'Pengajuan berhasil dikirim.');
+        return redirect('/riwayat')->with('Pengajuan berhasil dikirim.');
     }
 
     public function riwayat()
