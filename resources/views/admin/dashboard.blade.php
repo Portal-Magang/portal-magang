@@ -46,7 +46,6 @@
             color: #001a4d;
         }
 
-
         .stat-card {
             background: linear-gradient(135deg, #1e3a5f 0%, #0d1b35 100%);
             border: 1px solid #2a4a7a;
@@ -91,7 +90,7 @@
             <nav class="space-y-1">
                 <!-- DASHBOARD -->
                 <a href="{{ url('/admin/dashboard') }}"
-                    class="nav-link active flex items-center gap-2 px-3 py-2.5 rounded-lg text-gray-700 font-medium">
+                    class="nav-link flex items-center gap-2 px-3 py-2.5 rounded-lg text-gray-700 font-medium">
 
                     <!-- Icon Dashboard -->
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"

@@ -68,7 +68,7 @@ class PengajuanController extends Controller
     {
         $pengajuan = Pengajuan::findOrFail($id);
 
-        if (auth::user()->role !== 'admin' && $pengajuan->user_id !== auth::id()) {
+        if (Auth::user()->role !== 'admin' && $pengajuan->user_id !== Auth::id()) {
             abort(403);
         }
 
@@ -85,7 +85,7 @@ class PengajuanController extends Controller
     {
         $pengajuan = Pengajuan::findOrFail($id);
 
-        if (auth::user()->role !== 'admin') {
+        if (Auth::user()->role !== 'admin') {
             abort(403);
         }
 
