@@ -39,7 +39,7 @@
 
                 <div>
                     <p class="text-sm text-gray-500 font-semibold uppercase tracking-wide">Surat Pengantar</p>
-                    <a href="{{ asset('storage/'.$pengajuan->surat_pengantar) }}" 
+                    <a href="{{ route('pengajuan.surat.preview', $pengajuan->id) }}"
                        target="_blank"
                        class="inline-flex items-center gap-2 text-blue-600 hover:underline font-semibold text-lg mt-1">
                         📄 Lihat Surat
