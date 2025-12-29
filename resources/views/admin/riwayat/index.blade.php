@@ -41,15 +41,11 @@
                     <div class="mx-6">
                         @if($pengajuan->status === 'diterima')
                             <span class="bg-green-400 text-slate-900 font-bold py-2 px-6 rounded-full text-sm">
-                                ✅ Diterima
+                                Diterima
                             </span>
-                        @elseif($pengajuan->status === 'ditolak')
+                        @else($pengajuan->status === 'ditolak')
                             <span class="bg-red-400 text-white font-bold py-2 px-6 rounded-full text-sm">
-                                ❌ Ditolak
-                            </span>
-                        @else
-                            <span class="bg-yellow-400 text-slate-900 font-bold py-2 px-6 rounded-full text-sm">
-                                ⏳ Menunggu
+                                Ditolak
                             </span>
                         @endif
                     </div>

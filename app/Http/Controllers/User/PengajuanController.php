@@ -47,7 +47,7 @@ class PengajuanController extends Controller
             'status'          => 'menunggu',
         ]);
 
-        return redirect('/riwayat')->with('success', 'Pengajuan berhasil dikirim.');
+        return redirect('/riwayat-surat')->with('success', 'Pengajuan berhasil dikirim.');
     }
 
     public function riwayat()
@@ -68,6 +68,9 @@ class PengajuanController extends Controller
     {
         $pengajuan = Pengajuan::findOrFail($id);
 
+        $user = Auth::user();
+        if (!$user) abort(401);
+
         if (Auth::user()->role !== 'admin' && $pengajuan->user_id !== Auth::id()) {
             abort(403);
         }
@@ -79,22 +82,5 @@ class PengajuanController extends Controller
         }
 
         return response()->file($path);
-    }
-
-    public function downloadSurat($id)
-    {
-        $pengajuan = Pengajuan::findOrFail($id);
-
-        if (Auth::user()->role !== 'admin') {
-            abort(403);
-        }
-
-        $path = $this->suratPath($pengajuan);
-
-        if (!file_exists($path)) {
-            abort(404);
-        }
-
-        return response()->download($path);
     }
 }

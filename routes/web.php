@@ -39,9 +39,7 @@ Route::middleware(['auth', 'role:user'])->group(function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/pengajuan/{id}/surat/preview', [PengajuanController::class, 'previewSurat'])->name('pengajuan.surat.preview');
-    Route::get('/pengajuan/{id}/surat', [PengajuanController::class, 'downloadSurat'])->name('pengajuan.surat');
 });
-
 
 Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
         Route::get('/dashboard', [AdminDashboard::class, 'index']);

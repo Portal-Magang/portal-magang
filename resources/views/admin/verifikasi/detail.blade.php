@@ -40,7 +40,7 @@
 
             <div>
                 <p class="text-sm text-gray-500">Surat Pengantar</p>
-                <a href="{{ asset('storage/'.$pengajuan->surat_pengantar) }}" 
+                <a href="{{ route('pengajuan.surat.preview', $pengajuan->id) }}" 
                    target="_blank"
                    class="inline-flex items-center gap-2 text-blue-600 hover:underline font-medium">
                     📄 Lihat Surat
@@ -64,8 +64,8 @@
                 <select name="status" required
                     class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200">
                     <option value="">-- Pilih Keputusan --</option>
-                    <option value="diterima">✅ Terima</option>
-                    <option value="ditolak">❌ Tolak</option>
+                    <option value="diterima">Terima</option>
+                    <option value="ditolak">Tolak</option>
                 </select>
             </div>
 
