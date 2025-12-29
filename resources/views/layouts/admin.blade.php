@@ -100,8 +100,8 @@
 
                 <a href="{{ url('/admin/verifikasi') }}"
                     class="nav-link flex items-center gap-2 px-3 py-2.5 rounded-lg text-gray-700 font-medium">
-                    <i class="fa-solid fa-clock"></i>
-                    <span class="text-sm">Menunggu Verifikasi</span>
+                    <i class="fa-solid fa-file-circle-check"></i>
+                    <span class="text-sm">Verifikasi Surat</span>
                 </a>
 
                 <a href="{{ url('/admin/riwayat') }}"
@@ -127,16 +127,11 @@
                 </button>
             </form>
             </div>
-
         </div>
-
-
         {{-- MAIN CONTENT --}}
         <main class="flex-1">
             @yield('content') {{-- 🔴 INI WAJIB --}}
         </main>
     </div>
-
 </body>
-
 </html>

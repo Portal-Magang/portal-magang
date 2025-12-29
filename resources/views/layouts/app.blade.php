@@ -110,13 +110,10 @@
                 </button>
             </form>
     </aside>
-
     <!-- MAIN CONTENT -->
     <main class="flex-1 p-8">
         @yield('content')
     </main>
-
 </div>
-
 </body>
 </html>
