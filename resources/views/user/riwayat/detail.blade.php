@@ -28,18 +28,6 @@
                 <p class="text-gray-700">{{ $pengajuan->no_hp }}</p>
             </div>
 
-            <!-- Asal Instansi -->
-            <div class="flex items-start gap-4">
-                <span class="font-semibold text-gray-800 min-w-fit">Asal Instansi:</span>
-                <p class="text-gray-700">{{ $pengajuan->asal_instansi }}</p>
-            </div>
-
-            <!-- Jurusan -->
-            <div class="flex items-start gap-4">
-                <span class="font-semibold text-gray-800 min-w-fit">Jurusan:</span>
-                <p class="text-gray-700">{{ $pengajuan->jurusan }}</p>
-            </div>
-
             <!-- Surat Pengantar -->
             <div class="flex items-start gap-4">
                 <span class="font-semibold text-gray-800 min-w-fit">Surat Pengantar:</span>
