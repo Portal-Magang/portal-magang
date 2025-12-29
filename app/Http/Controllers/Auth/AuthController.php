@@ -35,7 +35,7 @@ class AuthController extends Controller
             'role' => 'user',        
         ]);
 
-        return redirect('/login')->with('Registrasi berhasil, silakan login.');
+        return redirect('/riwayat')->with('success', 'Pengajuan berhasil dikirim.');
     }
 
     public function login(Request $request)
@@ -45,7 +45,9 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-        if (Auth::attempt($credentials)) {
+        $remember = $request->boolean('remember');
+
+        if (Auth::attempt($credentials, $remember)) {
             $request->session()->regenerate();
 
             if (Auth::user()->role === 'admin') {

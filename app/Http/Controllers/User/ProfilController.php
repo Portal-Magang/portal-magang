@@ -33,6 +33,6 @@ class ProfilController extends Controller
         $user->password = Hash::make($request->password);
         $user->save();
 
-        return back()->with('Password berhasil diperbarui.');
+        return back()->with('success', 'Password berhasil diperbarui.');
     }
 }
