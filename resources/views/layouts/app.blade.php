@@ -35,7 +35,7 @@
 
         .nav-link:hover i,
         .nav-link:hover svg {
-            color: #38bdf8;
+            color: #ffffff;
         }
 
         .nav-link.active {

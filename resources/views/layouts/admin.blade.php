@@ -32,8 +32,7 @@
         }
 
         .nav-link:hover svg {
-            color: #38bdf8;
-            /* cyan-400 */
+            color: #ffffff;
         }
 
         /* ACTIVE MENU */

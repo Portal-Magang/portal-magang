@@ -52,15 +52,11 @@
                     <div class="mt-2">
                         @if($pengajuan->status === 'diterima')
                             <span class="bg-green-400 text-slate-900 font-bold py-2 px-4 rounded-lg text-sm inline-block">
-                                ✅ Diterima
+                                Diterima
                             </span>
-                        @elseif($pengajuan->status === 'ditolak')
+                        @else($pengajuan->status === 'ditolak')
                             <span class="bg-red-400 text-white font-bold py-2 px-4 rounded-lg text-sm inline-block">
-                                ❌ Ditolak
-                            </span>
-                        @else
-                            <span class="bg-yellow-400 text-slate-900 font-bold py-2 px-4 rounded-lg text-sm inline-block">
-                                ⏳ Menunggu
+                                Ditolak
                             </span>
                         @endif
                     </div>
