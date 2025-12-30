@@ -147,7 +147,7 @@
         function closeModal() {
             document.getElementById('editModal').classList.add('hidden');
         }
-
+        
         function previewImage(event) {
             const reader = new FileReader();
             reader.onload = function () {
