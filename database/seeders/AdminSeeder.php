@@ -12,7 +12,8 @@ class AdminSeeder extends Seeder
     {
         User::updateOrCreate(
             [
-                'email' => 'diskominfo@paserkab.go.id'
+                'email' => 'diskominfo@paserkab.go.id',
+                'username' => 'adminDiskominfo'
             ],
             [
                 'name' => 'Admin Diskominfo',

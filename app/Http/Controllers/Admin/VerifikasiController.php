@@ -4,8 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Pengajuan;
-use App\Mail\StatusPengajuanMail;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 
 class VerifikasiController extends Controller
@@ -41,9 +39,6 @@ class VerifikasiController extends Controller
             'status' => $request->status,
             'catatan_admin' => $request->catatan_admin,
         ]);
-
-        Mail::to($pengajuan->user->email)
-            ->send(new StatusPengajuanMail($pengajuan));
 
         return redirect('/admin/verifikasi')
             ->with('succes', 'Pengajuan berhasil diperbarui');

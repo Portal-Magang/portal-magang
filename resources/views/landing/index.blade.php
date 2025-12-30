@@ -29,11 +29,13 @@
       pengalaman kerja, serta pemahaman dunia profesional secara langsung di Diskominfostaper.
     </p>
 
-    <h2>Daftar Disini</h2>
-
     <div class="actions">
+    @auth
+      <a href="{{ route('dashboard') }}" class="btn">Masuk</a>
+    @else
       <a href="{{ route('login') }}" class="btn">Login</a>
       <a href="{{ route('register') }}" class="btn">Registrasi</a>
+    @endauth
     </div>
   </div>
 
