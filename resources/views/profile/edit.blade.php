@@ -1,67 +1,56 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Profile') }}
-        </h2>
-    </x-slot>
+@extends('layouts.app')
 
-    <section class="space-y-6">
-    <header>
-        <h2 class="text-lg font-medium text-gray-900">
-            Foto Profil
-        </h2>
+@section('content')
+<div class="max-w-3xl mx-auto bg-white rounded-2xl shadow-lg p-8">
 
-        <p class="mt-1 text-sm text-gray-600">
-            Unggah foto profil (JPG / PNG, max 2MB)
-        </p>
-    </header>
+    <h1 class="text-2xl font-bold text-[#001B61] mb-6">
+        Profil Saya
+    </h1>
 
-    <form method="post"
-          action="{{ route('profile.photo.update') }}"
-          enctype="multipart/form-data"
-          class="space-y-6">
+    {{-- FOTO PROFIL --}}
+    <div class="flex items-center gap-6 mb-8">
+        <img
+            src="{{ auth()->user()->photo_profile
+                ? asset('storage/' . auth()->user()->photo_profile)
+                : asset('asset/default-avatar.png') }}"
+            class="w-24 h-24 rounded-full object-cover border">
+
+        <form method="POST" action="{{ route('profile.photo.update') }}" enctype="multipart/form-data">
+            @csrf
+            <input type="file" name="photo_profile" class="text-sm">
+            <button class="mt-2 px-4 py-2 bg-[#001B61] text-white rounded-lg text-sm">
+                Ganti Foto
+            </button>
+        </form>
+    </div>
+
+    {{-- FORM PROFIL --}}
+    <form method="POST" action="{{ route('profile.update') }}" class="space-y-5">
         @csrf
-        @method('patch')
+        @method('PUT')
 
         <div>
-            <img src="{{ auth()->user()->photo_profile_url }}"
-                 alt="Foto Profil"
-                 class="w-24 h-24 rounded-full object-cover mb-3">
-
-            <input type="file"
-                   name="photo_profile"
-                   accept="image/*"
-                   class="block w-full text-sm">
-            <x-input-error :messages="$errors->get('photo_profile')" class="mt-2" />
+            <label class="text-sm font-medium">Nama</label>
+            <input type="text" name="name" value="{{ auth()->user()->name }}"
+                class="w-full mt-1 rounded-lg border-gray-300">
         </div>
 
-        <x-primary-button>Simpan Foto</x-primary-button>
+        <div>
+            <label class="text-sm font-medium">Username</label>
+            <input type="text" name="username" value="{{ auth()->user()->username }}"
+                class="w-full mt-1 rounded-lg border-gray-300">
+        </div>
 
-        @if (session('status') === 'photo-updated')
-            <p class="text-sm text-gray-600">Foto profil diperbarui.</p>
-        @endif
+        <div>
+            <label class="text-sm font-medium">Email</label>
+            <input type="email" value="{{ auth()->user()->email }}"
+                class="w-full mt-1 rounded-lg border-gray-200 bg-gray-100" disabled>
+        </div>
+
+        <button class="px-6 py-3 bg-[#001B61] text-white rounded-xl font-semibold">
+            Simpan Perubahan
+        </button>
     </form>
-    </section>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.update-profile-information-form')
-                </div>
-            </div>
-
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.update-password-form')
-                </div>
-            </div>
-
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.delete-user-form')
-                </div>
-            </div>
-        </div>
-    </div>
-</x-app-layout>
+</div>
+@endsection
