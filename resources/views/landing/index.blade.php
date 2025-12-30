@@ -16,6 +16,12 @@
     * {
       font-family: 'Inter', sans-serif;
     }
+
+    .hero-bg {
+    background-image: url("/asset/landing.png");
+    background-size: cover;
+    background-position: center;
+  }
   </style>
 </head>
 
@@ -30,8 +36,7 @@
   </header>
 
   <!-- HERO -->
-  <section class="min-h-screen flex items-center justify-center text-center
-                bg-cover bg-center relative" style="background-image: url('{{ asset('asset/landing.png') }}')">
+  <section class="min-h-screen flex items-center justify-center text-center relative hero-bg">
 
     <div class="absolute inset-0 bg-black/60"></div>
 
@@ -41,9 +46,9 @@
       </h1>
 
       <p class="text-gray-200 mt-6 text-lg leading-relaxed">
-        Sistem Informasi Magang & PKL sebagai portal resmi
+        Sistem Informasi Magang dan Praktik Kerja Lapangan sebagai portal resmi
         pendaftaran Praktik Kerja Lapangan dan Magang di
-        <span class="font-semibold text-white">Diskominfostaper Kabupaten Pase</span>.
+        <span class="font-semibold text-white">Diskominfostaper Kabupaten Paser</span>.
       </p>
 
       <div class="mt-8 flex justify-center gap-4 flex-wrap">

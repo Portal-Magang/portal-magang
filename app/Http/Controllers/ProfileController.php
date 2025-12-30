@@ -8,48 +8,44 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
-    public function updatePhoto(Request $request): RedirectResponse
-    {
-        $request ->validate([
-            'photo_profile' => ['required', 'image', 'mimes:jpg,jpeg,png' ,'max:2048'],
-        ]);
-
-        $user = $request->user();
-        if ($user->photo_profile && Storage::disk('public')->exists($user->photo_profile)) {
-            Storage::disk('public')->delete($user->photo_profile);
-        }
-
-        $filePath = $request->file('photo_profile')->store('poto_profil', 'public');
-        
-        $user->update([
-            'photo_profile' => $filePath,
-        ]);
-
-        return Redirect::route('profile.edit')->with('status', 'photo-updated');
-    }
-
     public function edit(Request $request): View
     {
-        return view('profile.edit', [
+        return view('user.profile.edit', [
             'user' => $request->user(),
         ]);
     }
 
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        $user = $request->user();
+        $user->name = $request->validated('name');
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        if ($request->hasFile('photo_profile')) {
+            if ($user->photo_profile && Storage::disk('public')->exists($user->photo_profile)) {
+                Storage::disk('public')->delete($user->photo_profile);
+            }
+
+            $user->photo_profile = $request->file('photo_profile')->store('poto_profil', 'public');
         }
 
-        $request->user()->save();
+        if ($request->filled('password')) {
+            if (!$request->filled('current_password')) {
+                return back()
+                    ->withErrors(['current_password' => 'Password saat ini wajib diisi untuk mengganti password.'])
+                    ->withInput();
+            }
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+            $user->password = Hash::make($request->password);
+        }
+
+        $user->save();
+
+        return Redirect::route('profile.edit')->with('success', 'Profil berhasil diperbarui.');
     }
 
     public function destroy(Request $request): RedirectResponse
