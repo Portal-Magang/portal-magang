@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules\Password;
 use Illuminate\View\View;
 use PHPUnit\Metadata\WithoutErrorHandler;
 
@@ -39,7 +38,7 @@ class ProfileController extends Controller
         if ($request->filled('password')) {
 
             $request->validate([
-                'current_password' => ['required'],
+                'currenzt_password' => ['required'],
                 'password' => ['required','confirmed', Password::min(8)->letters()->numbers()->symbols()],
             ]);
 
