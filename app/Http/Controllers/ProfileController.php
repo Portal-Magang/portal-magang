@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
 use Illuminate\View\View;
 
 class ProfileController extends Controller
@@ -34,19 +35,23 @@ class ProfileController extends Controller
         }
 
         if ($request->filled('password')) {
-            if (!$request->filled('current_password')) {
-                return back()
-                    ->withErrors(['current_password' => 'Password saat ini wajib diisi untuk mengganti password.'])
-                    ->withInput();
+
+            $request->validate([
+                'current_password' => ['required'],
+                'password' => ['required','confirmed', Password::min(8)->letters()->numbers()->symbols()],
+            ]);
+
+                if (!Hash::check($request->current_password, $user->password)) {
+                    return back()->withErrors(['current_password' => 'Password saat ini tidak sesuai.'])->withInput();
             }
 
             $user->password = Hash::make($request->password);
         }
-
+        
         $user->save();
-
-        return Redirect::route('profile.edit')->with('success', 'Profil berhasil diperbarui.');
-    }
+        
+            return Redirect::route('profile.edit')->with('success', 'Profil berhasil diperbarui.');
+        }
 
     public function destroy(Request $request): RedirectResponse
     {
