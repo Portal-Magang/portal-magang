@@ -47,7 +47,7 @@
 
       <p class="text-gray-200 mt-6 text-lg leading-relaxed">
         Sistem Informasi Magang dan Praktik Kerja Lapangan sebagai portal resmi
-        pendaftaran Praktik Kerja Lapangan dan Magang di
+        pendaftaran Magang dan Praktik Kerja Lapangan di
         <span class="font-semibold text-white">Diskominfostaper Kabupaten Paser</span>.
       </p>
 

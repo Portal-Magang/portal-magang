@@ -31,7 +31,10 @@ class VerifikasiController extends Controller
     {
         $request->validate([
             'status' => 'required|in:diterima,ditolak',
-            'catatan_admin' => 'nullable|string',
+            'catatan_admin' => 'nullable|required_if:status,ditolak|string',
+        ],
+        [
+            'catatan_admin.required_if' => 'Catatan admin wajib diisi jika pengajuan ditolak.',
         ]);
 
         $pengajuan = Pengajuan::findOrFail($id);
@@ -41,6 +44,6 @@ class VerifikasiController extends Controller
         ]);
 
         return redirect('/admin/verifikasi')
-            ->with('succes', 'Pengajuan berhasil diperbarui');
+            ->with('success', 'Pengajuan berhasil diperbarui');
     }
 }

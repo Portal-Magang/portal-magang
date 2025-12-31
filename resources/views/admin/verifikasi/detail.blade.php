@@ -74,10 +74,24 @@
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 mb-2">
                         Catatan Admin
+                        <span class="text-red-500">*</span>
                     </label>
-                    <textarea name="catatan_admin" rows="4"
-                        class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
-                        placeholder="Tulis catatan (opsional)..."></textarea>
+
+                    <textarea
+                        name="catatan_admin"
+                        rows="4"
+                        class="w-full rounded-lg border p-3
+                            {{ $errors->has('catatan_admin')
+                                ? 'border-red-500 focus:border-red-500 focus:ring-red-200'
+                                : 'border-gray-300 focus:border-blue-500 focus:ring-blue-200' }}
+                            focus:ring"
+                        placeholder="Tulis catatan (wajib jika ditolak)...">{{ old('catatan_admin') }}</textarea>
+
+                    @error('catatan_admin')
+                        <p class="text-sm text-red-600 mt-2">
+                            {{ $message }}
+                        </p>
+                    @enderror
                 </div>
 
                 <!-- Button -->
@@ -92,7 +106,6 @@
                         Simpan Keputusan
                     </button>
                 </div>
-
             </form>
         </div>
 
