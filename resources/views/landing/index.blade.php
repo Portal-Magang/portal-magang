@@ -29,7 +29,7 @@
 
   <!-- TOP BAR -->
   <header class="w-full bg-white shadow-sm fixed top-0 z-50">
-    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <div class="max-w-7xl mx-5 px-5 py-5 flex items-center justify-between">
       <img src="{{ asset('asset/logo.png') }}" alt="Diskominfostaper" class="h-10">
 
     </div>
