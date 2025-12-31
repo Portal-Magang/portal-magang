@@ -167,9 +167,6 @@
                         <label class="text-sm font-medium text-gray-700">Password Baru</label>
                         <input type="password" name="password"
                             class="mt-2 w-full rounded-lg border border-gray-300 px-4 py-3">
-                        @error('password')
-                            <p class="text-sm text-red-600 mt-2">{{ $message }}</p>
-                        @enderror
                     </div>
 
                     <div>

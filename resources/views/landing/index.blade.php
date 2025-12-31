@@ -66,28 +66,28 @@
   <section class="py-20 bg-gray-50">
     <div class="max-w-6xl mx-auto px-6 text-center">
       <h2 class="text-3xl font-bold text-[#001B61] mb-6">
-        Kenapa SIMAK?
+        Informasi SIMAK
       </h2>
-
       <div class="grid md:grid-cols-3 gap-8 mt-12">
+
         <div class="bg-white p-8 rounded-2xl shadow hover:shadow-lg transition">
-          <h3 class="font-semibold text-lg mb-2">Pendaftaran Terpusat</h3>
+          <h3 class="font-semibold text-lg mb-2">Apa itu SIMAK?</h3>
           <p class="text-gray-600 text-sm">
-            Semua proses PKL & Magang dilakukan dalam satu sistem yang terintegrasi.
+            Merupakan sistem informasi untuk pendaftaran PKL dan Magang untuk memudahkan pendaftaran bagi mahasiswa maupun sekolah.
           </p>
         </div>
 
         <div class="bg-white p-8 rounded-2xl shadow hover:shadow-lg transition">
-          <h3 class="font-semibold text-lg mb-2">Transparan & Terpantau</h3>
+          <h3 class="font-semibold text-lg mb-2">Apa itu Praktik Kerja Lapangan?</h3>
           <p class="text-gray-600 text-sm">
-            Pantau status pengajuan secara real-time tanpa harus datang langsung.
+            Merupakan program pembelajaran di luar sekolah (SMK atau Universitas/Mahasiswa) yang bertujuan memberikan pengalaman langsung di dunia kerja nyata.
           </p>
         </div>
 
         <div class="bg-white p-8 rounded-2xl shadow hover:shadow-lg transition">
-          <h3 class="font-semibold text-lg mb-2">Mudah & Cepat</h3>
+          <h3 class="font-semibold text-lg mb-2">Apa itu Magang?</h3>
           <p class="text-gray-600 text-sm">
-            Proses pendaftaran lebih praktis, efisien, dan terdokumentasi dengan baik.
+            Merupakan program pelatihan kerja sementara untuk mahasiswa atau lulusan baru agar mendapatkan pengalaman praktis, menerapkan ilmu kuliah, memahami dunia profesional, membangun skill (keterampilan), dan memperluas jaringan di industri yang diminati.
           </p>
         </div>
       </div>
@@ -128,7 +128,7 @@
       Siap Mengembangkan Kompetensimu?
     </h2>
     <p class="text-gray-200 mb-8">
-      Daftar sekarang dan mulai pengalaman profesionalmu bersama Diskominfostaper.
+      Daftar sekarang dan dapatkan pengalaman kerja bersama Diskominfostaper.
     </p>
 
     <a href="{{ route('login') }}"

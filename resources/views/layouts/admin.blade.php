@@ -92,20 +92,21 @@
             <!-- MENU -->
             <nav class="space-y-1 flex-1">
 
-                <a href="{{ url('/admin/dashboard') }}"
-                    class="nav-link flex items-center gap-2 px-3 py-2.5 rounded-lg text-gray-700 font-medium">
+                <a href="{{ url('/admin/dashboard') }}" class="nav-link flex items-center gap-2 px-3 py-2.5 rounded-lg font-medium text-gray-700
+   {{ request()->is('admin/dashboard*') ? 'active' : '' }}">
                     <i class="fa-solid fa-house"></i>
                     <span class="text-sm">Dashboard</span>
                 </a>
 
-                <a href="{{ url('/admin/verifikasi') }}"
-                    class="nav-link flex items-center gap-2 px-3 py-2.5 rounded-lg text-gray-700 font-medium">
+                <a href="{{ url('/admin/verifikasi') }}" class="nav-link flex items-center gap-2 px-3 py-2.5 rounded-lg font-medium text-gray-700
+   {{ request()->is('admin/verifikasi*') ? 'active' : '' }}">
                     <i class="fa-solid fa-file-circle-check"></i>
                     <span class="text-sm">Verifikasi Surat</span>
                 </a>
 
-                <a href="{{ url('/admin/riwayat') }}"
-                    class="nav-link flex items-center gap-2 px-3 py-2.5 rounded-lg text-gray-700 font-medium">
+
+                <a href="{{ url('/admin/riwayat') }}" class="nav-link flex items-center gap-2 px-3 py-2.5 rounded-lg font-medium text-gray-700
+   {{ request()->is('admin/riwayat*') ? 'active' : '' }}">
                     <i class="fa-solid fa-rotate-left"></i>
                     <span class="text-sm">Riwayat</span>
                 </a>
@@ -114,18 +115,18 @@
 
             <!-- GARIS -->
             <div class="mt-auto">
-            <hr class="my-4">
+                <hr class="my-4">
 
-            <!-- LOGOUT -->
-            <form action="{{ route('logout') }}" method="POST" onsubmit="return confirm('Yakin ingin logout?')">
-                @csrf
-                <button type="submit" class="w-full flex items-center gap-2 px-3 py-2.5 rounded-lg
+                <!-- LOGOUT -->
+                <form action="{{ route('logout') }}" method="POST" onsubmit="return confirm('Yakin ingin logout?')">
+                    @csrf
+                    <button type="submit" class="w-full flex items-center gap-2 px-3 py-2.5 rounded-lg
                    font-medium text-red-600
                    hover:bg-red-600 hover:text-white transition">
-                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
-                    <span class="text-sm">Logout</span>
-                </button>
-            </form>
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                        <span class="text-sm">Logout</span>
+                    </button>
+                </form>
             </div>
         </div>
         {{-- MAIN CONTENT --}}
@@ -134,4 +135,5 @@
         </main>
     </div>
 </body>
+
 </html>
