@@ -8,9 +8,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\View\View;
+use PHPUnit\Metadata\WithoutErrorHandler;
 
 class ProfileController extends Controller
 {
@@ -41,10 +43,10 @@ class ProfileController extends Controller
                 'password' => ['required','confirmed', Password::min(8)->letters()->numbers()->symbols()],
             ]);
 
-                if (!Hash::check($request->current_password, $user->password)) {
-                    return back()->withErrors(['current_password' => 'Password saat ini tidak sesuai.'])->withInput();
+            if (!Hash::check($request->current_password, $user->password )){
+                return back() -> withErrors (['current_password' => 'password tidak sesuai'])->WithInput();
             }
-
+            
             $user->password = Hash::make($request->password);
         }
         

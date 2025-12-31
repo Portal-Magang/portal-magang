@@ -39,12 +39,20 @@
                 </div>
 
                 <div>
+                    <p class="text-sm text-gray-500">Tanggal Diajukan</p>
+                    <p class="font-semibold">
+                        {{ $pengajuan->created_at->translatedFormat('d F Y') }}
+                    </p>
+                </div>
+
+                <div>
                     <p class="text-sm text-gray-500">Surat Pengantar</p>
                     <a href="{{ route('pengajuan.surat.preview', $pengajuan->id) }}" target="_blank"
                         class="inline-flex items-center gap-2 text-blue-600 hover:underline font-medium">
                         📄 Lihat Surat
                     </a>
                 </div>
+
 
             </div>
         </div>
@@ -61,9 +69,9 @@
                         Status Pengajuan
                     </label>
                     <select name="status" required class="w-full rounded-lg border border-gray-300
-               px-4 py-3
-               focus:border-blue-500
-               focus:ring focus:ring-blue-200">
+                   px-4 py-3
+                   focus:border-blue-500
+                   focus:ring focus:ring-blue-200">
                         <option value="">-- Pilih Keputusan --</option>
                         <option value="diterima">Terima</option>
                         <option value="ditolak">Tolak</option>
@@ -77,14 +85,11 @@
                         <span class="text-red-500">*</span>
                     </label>
 
-                    <textarea
-                        name="catatan_admin"
-                        rows="4"
-                        class="w-full rounded-lg border p-3
-                            {{ $errors->has('catatan_admin')
-                                ? 'border-red-500 focus:border-red-500 focus:ring-red-200'
-                                : 'border-gray-300 focus:border-blue-500 focus:ring-blue-200' }}
-                            focus:ring"
+                    <textarea name="catatan_admin" rows="4" class="w-full rounded-lg border p-3
+                                {{ $errors->has('catatan_admin')
+        ? 'border-red-500 focus:border-red-500 focus:ring-red-200'
+        : 'border-gray-300 focus:border-blue-500 focus:ring-blue-200' }}
+                                focus:ring"
                         placeholder="Tulis catatan (wajib jika ditolak)...">{{ old('catatan_admin') }}</textarea>
 
                     @error('catatan_admin')
