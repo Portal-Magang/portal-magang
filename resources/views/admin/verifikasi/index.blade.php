@@ -17,7 +17,8 @@
                             <!-- Applicant Name -->
                             <h2 class="text-slate-800 text-xl font-semibold">{{ $pengajuan->user->name }}</h2>
                             <!-- Institution & Major -->
-                            <p class="text-slate-600 text-sm">{{ $pengajuan->asal_instansi }} • {{ $pengajuan->jurusan }} • {{ $pengajuan->created_at->translatedFormat('d F Y') }}</p>
+                            <p><span class="font-semibold">Asal Instansi:</span> {{ $pengajuan->asal_instansi }} • {{ $pengajuan->jurusan }}</p>
+                            <p><span class="font-semibold">Diajukan Pada Tanggal:</span> {{ $pengajuan->created_at->translatedFormat('d F Y') }}</p>
                         </div>
                     </div>
                     

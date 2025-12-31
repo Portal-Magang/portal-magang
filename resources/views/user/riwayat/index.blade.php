@@ -21,6 +21,7 @@
                             <!-- Institution and Major -->
                             <div class="text-sm text-gray-600 space-y-1">
                                 <p><span class="font-semibold">Catatan Instansi:</span> {{ $pengajuan->catatan_admin }}</p>
+                                <p><span class="font-semibold">Diajukan Pada Tanggal:</span> {{ $pengajuan->created_at->translatedFormat('d F Y') }}</p>
                             </div>
                         </div>
                     </div>
