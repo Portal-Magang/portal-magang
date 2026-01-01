@@ -28,7 +28,6 @@ Route::middleware(['auth'])->get('/dashboard', function () {
 Route::middleware(['auth', 'role:user'])->group(function () {
     Route::get('/pengajuan', [PengajuanController::class, 'create'])->name('pengajuan.create');
     Route::post('/pengajuan', [PengajuanController::class, 'store'])->name('pengajuan.store');
-
     Route::get('/riwayat-surat', [RiwayatSuratController::class, 'index'])->name('user.riwayat.index');
     Route::get('/riwayat-surat/{id}', [RiwayatSuratController::class, 'detail'])->name('user.riwayat.detail');
 });
@@ -42,16 +41,13 @@ Route::middleware(['auth'])->group(function () {
 
 Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/dashboard', [AdminDashboard::class, 'index']);
-
     Route::get('/verifikasi', [VerifikasiController::class, 'index'])->name('admin.verifikasi.index');
     Route::get('/verifikasi/{id}', [VerifikasiController::class, 'detail'])->name('admin.verifikasi.detail');
     Route::post('/verifikasi/{id}', [VerifikasiController::class, 'updateStatus'])->name('admin.verifikasi.update');
-
-    Route::get('/pengajuan/{id}/surat/download', [PengajuanController::class, 'downloadSurat'])
-        ->name('admin.pengajuan.surat.download');
-
+    Route::get('/pengajuan/{id}/surat/download', [PengajuanController::class, 'downloadSurat'])->name('admin.pengajuan.surat.download');
     Route::get('/riwayat', [RiwayatController::class, 'index'])->name('admin.riwayat.index');
     Route::get('/riwayat/{id}', [RiwayatController::class, 'detail'])->name('admin.riwayat.detail');
+    Route::get('/laporan', [\App\Http\Controllers\Admin\LaporanController::class, 'index'])->name('admin.laporan.index');
 });
 
 require __DIR__.'/auth.php';
