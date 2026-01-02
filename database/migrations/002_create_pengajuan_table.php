@@ -14,8 +14,6 @@ return new class extends Migration {
                   ->constrained('users')
                   ->onDelete('cascade');
             $table->string('asal_instansi');
-            $table->string('jurusan');
-            $table->string('no_hp');
             $table->string('surat_pengantar');
             $table->enum('status', ['menunggu', 'diterima', 'ditolak'])
                   ->default('menunggu');

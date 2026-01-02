@@ -8,13 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Pengajuan extends Model
 {
     use HasFactory;
+
     protected $table = 'pengajuan';
 
     protected $fillable = [
         'user_id',
+        'jenis_pengajuan',
         'asal_instansi',
-        'jurusan',
-        'no_hp',
         'surat_pengantar',
         'status',
         'catatan_admin',
@@ -23,5 +23,10 @@ class Pengajuan extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function peserta()
+    {
+        return $this->hasMany(PesertaPengajuan::class, 'pengajuan_id');
     }
 }
