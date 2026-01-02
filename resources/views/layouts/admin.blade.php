@@ -111,6 +111,13 @@
                     <span class="text-sm">Riwayat</span>
                 </a>
 
+                {{-- Added Laporan menu link --}}
+                <a href="{{ url('/admin/laporan') }}" class="nav-link flex items-center gap-2 px-3 py-2.5 rounded-lg font-medium text-gray-700
+   {{ request()->is('admin/laporan*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-chart-bar"></i>
+                    <span class="text-sm">Laporan</span>
+                </a>
+
             </nav>
 
             <!-- GARIS -->
