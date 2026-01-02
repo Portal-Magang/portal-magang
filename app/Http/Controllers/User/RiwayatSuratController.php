@@ -11,10 +11,9 @@ class RiwayatSuratController extends Controller
 {
     public function index(Request $request)
     {
-        $status = $request->query('status'); // menunggu / diterima / ditolak 
+        $status = $request->query('status'); // menunggu / diterima / ditolak
 
-        $query = Pengajuan::where('user_id', Auth::id())
-            ->latest();
+        $query = Pengajuan::with('peserta') ->where('user_id', Auth::id())->latest();
 
         if (in_array($status, ['menunggu', 'diterima', 'ditolak'])) {
             $query->where('status', $status);
@@ -27,8 +26,7 @@ class RiwayatSuratController extends Controller
 
     public function detail($id)
     {
-        $pengajuan = Pengajuan::where('user_id', Auth::id())
-            ->findOrFail($id);
+        $pengajuan = Pengajuan::with('peserta')->where('user_id', Auth::id())->findOrFail($id);
 
         return view('user.riwayat.detail', compact('pengajuan'));
     }

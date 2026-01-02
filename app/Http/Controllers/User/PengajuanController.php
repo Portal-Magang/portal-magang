@@ -16,68 +16,33 @@ class PengajuanController extends Controller
         return view('user.pengajuan.create');
     }
 
-    public function store(Request $request)
+        public function store(Request $request)
     {
         // Cegah spam: masih ada pengajuan menunggu
-        $exists = Pengajuan::where('user_id', Auth::id())
-            ->where('status', 'menunggu')
-            ->exists();
+        $exists = Pengajuan::where('user_id', Auth::id())->where('status', 'menunggu')->exists();
 
         if ($exists) {
-            return back()
-                ->withErrors(['surat_pengantar' => 'Masih ada pengajuan yang menunggu.'])
-                ->withInput();
+            return back()->withErrors(['surat_pengantar' => 'Masih ada pengajuan yang menunggu.'])->withInput();
         }
 
+        // validasi
         $request->validate([
             'jenis_pengajuan' => 'required|in:Individu,Instansi',
             'asal_instansi'   => 'required|string|max:255',
             'surat_pengantar' => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
+
+            'nama_pengaju'    => 'required|array|min:1',
+            'nama_pengaju.*'  => 'required|string|max:255',
+            'jurusan'         => 'required|array|min:1',
+            'jurusan.*'       => 'required|string|max:255',
+            'no_hp'           => 'required|array|min:1',
+            'no_hp.*'         => 'required|string|max:20',
         ]);
 
-        $nama = $request->input('nama_pengaju');
-        $jurusan = $request->input('jurusan');
-        $no_hp = $request->input('no_hp');
+        // Simpan file setelah validasi
+        $filePath = $request->file('surat_pengantar')->store('surat_pengantar', 'public');
 
-        $peserta = [];
-
-        if (is_array($nama)) {
-            for($i = 0; $i < count($nama); $i++) {
-                if (!isset($nama[$i], $jurusan[$i], $hp[$i])) continue;
-
-                $peserta[] = [
-                    'nama'    => $nama[$i],
-                    'jurusan' => $jurusan[$i],
-                    'no_hp'   => $no_hp[$i],
-                ];
-            }
-        } else {
-            $peserta[] = [
-                'nama'    => $nama,
-                'jurusan' => $jurusan,
-                'no_hp'   => $no_hp,
-            ];
-        }
-        
-        if (count($peserta) < 1){
-            return back()->withErrors(['nama_pengaju' => 'Minimal harus ada satu peserta yang diisi.'])->withInput();
-        }
-
-        foreach ($peserta as $idx => $p){
-            if (empty($p['nama_pengaju']) || empty($p['jurusan']) || empty($p['no_hp'])){
-                return back()-> withErrors(['nama_pengaju' => "Data peserta ke-" . ($idx + 1) . " tidak lengkap."])->withInput();
-            }
-
-            if (mb_strlen($p['nama_pengaju']) > 255 || mb_strlen($p['jurusan']) > 255 || mb_strlen($p['no_hp']) > 20){
-                return back()-> withErrors(['nama_pengaju' => "Data peserta ke-" . ($idx + 1) . " melebihi batas maximum."])->withInput();
-            }
-        }
-
-        // simpan file ke storage/app/public/surat_pengantar
-        $filePath = $request->file('surat_pengantar')
-            ->store('surat_pengantar', 'public');
-
-         DB::transaction(function () use ($request, $filePath, $peserta) {
+        DB::transaction(function () use ($request, $filePath) {
 
             $pengajuan = Pengajuan::create([
                 'user_id'         => Auth::id(),
@@ -87,12 +52,18 @@ class PengajuanController extends Controller
                 'status'          => 'menunggu',
             ]);
 
-            foreach ($peserta as $p) {
+            $nama    = $request->nama_pengaju;
+            $jurusan = $request->jurusan;
+            $no_hp   = $request->no_hp;
+
+            $jumlah = min(count($nama), count($jurusan), count($no_hp));
+
+            for ($i = 0; $i < $jumlah; $i++) {
                 PesertaPengajuan::create([
                     'pengajuan_id' => $pengajuan->id,
-                    'nama_pengaju' => $p['nama_pengaju'],
-                    'jurusan'      => $p['jurusan'],
-                    'no_hp'        => $p['no_hp'],
+                    'nama_pengaju' => $nama[$i],
+                    'jurusan'      => $jurusan[$i],
+                    'no_hp'        => $no_hp[$i],
                 ]);
             }
         });
@@ -102,9 +73,7 @@ class PengajuanController extends Controller
 
     public function riwayat()
     {
-        $pengajuans = Pengajuan::where('user_id', Auth::id())
-            ->latest()
-            ->get();
+        $pengajuans = Pengajuan::where('user_id', Auth::id())->latest()->get();
 
         return view('user.pengajuan.riwayat', compact('pengajuans'));
     }

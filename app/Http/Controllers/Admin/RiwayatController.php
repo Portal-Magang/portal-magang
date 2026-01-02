@@ -12,9 +12,7 @@ class RiwayatController extends Controller
     {
         $status = $request->query('status');
 
-        $query = Pengajuan::with('user')
-            ->whereIn('status', ['diterima', 'ditolak'])
-            ->latest();
+        $query = Pengajuan::with(['user', 'peserta'])->whereIn('status', ['diterima', 'ditolak'])->latest();
 
         if (in_array($status, ['diterima', 'ditolak'])) {
             $query->where('status', $status);
@@ -27,7 +25,7 @@ class RiwayatController extends Controller
 
     public function detail($id)
     {
-        $pengajuan = Pengajuan::with('user')->findOrFail($id);
+        $pengajuan = Pengajuan::with(['user', 'peserta'])->findOrFail($id);
         return view('admin.riwayat.detail', compact('pengajuan'));
     }
 }

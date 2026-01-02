@@ -11,10 +11,7 @@ class VerifikasiController extends Controller
     // list pengajuan (menunggu)
     public function index()
     {
-        $pengajuans = Pengajuan::with('user')
-            ->where('status', 'menunggu')
-            ->latest()
-            ->get();
+        $pengajuans = Pengajuan::with(['user', 'peserta'])->where('status', 'menunggu')->latest()->get();
 
         return view('admin.verifikasi.index', compact('pengajuans'));
     }
@@ -37,13 +34,10 @@ class VerifikasiController extends Controller
             'catatan_admin.required_if' => 'Catatan admin wajib diisi jika pengajuan ditolak.',
         ]);
 
-        $pengajuan = Pengajuan::findOrFail($id);
-        $pengajuan->update([
-            'status' => $request->status,
-            'catatan_admin' => $request->catatan_admin,
+        $pengajuan = Pengajuan::with(['user', 'peserta'])->findOrFail($id);
+        $pengajuan->update(['status' => $request->status,'catatan_admin' => $request->catatan_admin,
         ]);
 
-        return redirect('/admin/verifikasi')
-            ->with('success', 'Pengajuan berhasil diperbarui');
+        return redirect('/admin/verifikasi')->with('success', 'Pengajuan berhasil diperbarui');
     }
 }
