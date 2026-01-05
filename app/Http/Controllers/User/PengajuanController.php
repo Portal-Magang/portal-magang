@@ -47,7 +47,7 @@ class PengajuanController extends Controller
             ]);
         }
 
-        // Simpan file setelah validasi
+        // Simpan file
         $filePath = $request->file('surat_pengantar')->store('surat_pengantar', 'public');
 
         DB::transaction(function () use ($request, $filePath) {
