@@ -1,64 +1,87 @@
 @extends('layouts.admin')
 
 @section('content')
-    <div class="max-w-4xl mx-auto">
+<div class="min-h-screen bg-gradient-to-b from-slate-950 via-blue-950 to-black p-8">
+    <div class="max-w-6xl mx-auto">
 
         <!-- Title -->
-        <h2 class="text-3xl font-bold text-white mt-5 mb-8">
-            Detail Pengajuan
-        </h2>
+        <h1 class="text-4xl font-bold text-white mb-10 text-center">
+            Detail Pengajuan PKL / Magang
+        </h1>
 
-        <!-- Card Detail -->
-        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+        <!-- INFO PENGAJUAN -->
+        <div class="bg-white/95 rounded-2xl shadow-xl mb-8 overflow-hidden">
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-gray-700">
-
+            <div class="grid grid-cols-2 gap-6 px-8 py-6 text-sm text-slate-700">
                 <div>
-                    <p class="text-sm text-gray-500">Nama</p>
-                    <p class="font-semibold">{{ $pengajuan->user->name }}</p>
-                </div>
-
-                <div>
-                    <p class="text-sm text-gray-500">Email</p>
-                    <p class="font-semibold">{{ $pengajuan->user->email }}</p>
-                </div>
-
-                <div>
-                    <p class="text-sm text-gray-500">Asal Instansi</p>
+                    <p class="text-slate-500">Asal Instansi</p>
                     <p class="font-semibold">{{ $pengajuan->asal_instansi }}</p>
                 </div>
 
                 <div>
-                    <p class="text-sm text-gray-500">Jurusan</p>
-                    <p class="font-semibold">{{ $pengajuan->jurusan }}</p>
+                    <p class="text-slate-500">Email Pengaju</p>
+                    <p class="font-semibold">{{ $pengajuan->user->email }}</p>
                 </div>
 
                 <div>
-                    <p class="text-sm text-gray-500">No. HP</p>
-                    <p class="font-semibold">{{ $pengajuan->no_hp }}</p>
-                </div>
-
-                <div>
-                    <p class="text-sm text-gray-500">Tanggal Diajukan</p>
+                    <p class="text-slate-500">Tanggal Pengajuan</p>
                     <p class="font-semibold">
                         {{ $pengajuan->created_at->translatedFormat('d F Y') }}
                     </p>
                 </div>
 
                 <div>
-                    <p class="text-sm text-gray-500">Surat Pengantar</p>
-                    <a href="{{ route('pengajuan.surat.preview', $pengajuan->id) }}" target="_blank"
-                        class="inline-flex items-center gap-2 text-blue-600 hover:underline font-medium">
+                    <p class="text-slate-500">Surat Pengantar</p>
+                    <a href="{{ route('pengajuan.surat.preview', $pengajuan->id) }}"
+                       target="_blank"
+                       class="text-cyan-600 font-semibold hover:underline">
                         📄 Lihat Surat
                     </a>
                 </div>
-
-
             </div>
+
         </div>
 
-        <!-- Card Form -->
-        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+        <!-- LIST PESERTA -->
+        <div class="bg-white/95 rounded-2xl shadow-xl overflow-hidden mb-10">
+
+            <!-- Header -->
+            <div class="grid grid-cols-12 px-6 py-4 bg-slate-100 text-slate-600 text-sm font-semibold">
+                <div class="col-span-1 text-center">No</div>
+                <div class="col-span-4">Nama</div>
+                <div class="col-span-4">Jurusan</div>
+                <div class="col-span-3">No. HP</div>
+            </div>
+
+            <!-- Rows -->
+            @forelse ($pengajuan->peserta as $index => $p)
+                <div class="grid grid-cols-12 px-6 py-4 border-t hover:bg-slate-50 transition">
+                    <div class="col-span-1 text-center text-slate-600">
+                        {{ $index + 1 }}
+                    </div>
+
+                    <div class="col-span-4 font-semibold text-slate-800">
+                        {{ $p->nama_pengaju }}
+                    </div>
+
+                    <div class="col-span-4 text-slate-600">
+                        {{ $p->jurusan }}
+                    </div>
+
+                    <div class="col-span-3 text-slate-600">
+                        {{ $p->no_hp }}
+                    </div>
+                </div>
+            @empty
+                <div class="text-center py-10 text-slate-500">
+                    Tidak ada data peserta
+                </div>
+            @endforelse
+
+        </div>
+
+        <!-- FORM VERIFIKASI -->
+        <div class="bg-white rounded-2xl shadow-lg p-8">
 
             <form method="POST" action="/admin/verifikasi/{{ $pengajuan->id }}" class="space-y-6">
                 @csrf
@@ -68,10 +91,9 @@
                     <label class="block text-sm font-semibold text-gray-700 mb-2">
                         Status Pengajuan
                     </label>
-                    <select name="status" required class="w-full rounded-lg border border-gray-300
-                   px-4 py-3
-                   focus:border-blue-500
-                   focus:ring focus:ring-blue-200">
+                    <select name="status" required
+                        class="w-full rounded-lg border border-gray-300 px-4 py-3
+                               focus:border-blue-500 focus:ring focus:ring-blue-200">
                         <option value="">-- Pilih Keputusan --</option>
                         <option value="diterima">Terima</option>
                         <option value="ditolak">Tolak</option>
@@ -81,16 +103,16 @@
                 <!-- Catatan -->
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 mb-2">
-                        Catatan Admin
-                        <span class="text-red-500">*</span>
+                        Catatan Admin <span class="text-red-500">*</span>
                     </label>
 
-                    <textarea name="catatan_admin" rows="4" class="w-full rounded-lg border p-3
-                                {{ $errors->has('catatan_admin')
-        ? 'border-red-500 focus:border-red-500 focus:ring-red-200'
-        : 'border-gray-300 focus:border-blue-500 focus:ring-blue-200' }}
-                                focus:ring"
-                        placeholder="Tulis catatan (wajib jika ditolak)...">{{ old('catatan_admin') }}</textarea>
+                    <textarea name="catatan_admin" rows="4"
+                        class="w-full rounded-lg border p-3
+                        {{ $errors->has('catatan_admin')
+                            ? 'border-red-500 focus:border-red-500 focus:ring-red-200'
+                            : 'border-gray-300 focus:border-blue-500 focus:ring-blue-200' }}
+                        focus:ring"
+                        placeholder="Wajib diisi jika pengajuan ditolak">{{ old('catatan_admin') }}</textarea>
 
                     @error('catatan_admin')
                         <p class="text-sm text-red-600 mt-2">
@@ -103,7 +125,7 @@
                 <div class="flex justify-end gap-3">
                     <a href="{{ url()->previous() }}"
                         class="px-6 py-2 rounded-lg bg-gray-200 text-gray-700 font-medium hover:bg-gray-300 transition">
-                        Batal
+                        Kembali
                     </a>
 
                     <button type="submit"
@@ -115,4 +137,5 @@
         </div>
 
     </div>
+</div>
 @endsection

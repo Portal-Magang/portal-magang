@@ -15,7 +15,7 @@
             <!-- Header -->
             <div class="grid grid-cols-12 px-6 py-4 bg-slate-100 text-slate-600 text-sm font-semibold">
                 <div class="col-span-4">Nama</div>
-                <div class="col-span-4">Instansi & Jurusan</div>
+                <div class="col-span-4">Asal Instansi</div>
                 <div class="col-span-3">Tanggal Pengajuan</div>
                 <div class="col-span-1 text-right">Aksi</div>
             </div>
@@ -27,7 +27,7 @@
                     <!-- Nama -->
                     <div class="col-span-4">
                         <p class="font-semibold text-slate-800">
-                            {{ $pengajuan->user->name }}
+                            {{ $pengajuan->user->username }}
                         </p>
                     </div>
 
