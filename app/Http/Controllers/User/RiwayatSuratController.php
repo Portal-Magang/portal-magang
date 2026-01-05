@@ -13,7 +13,7 @@ class RiwayatSuratController extends Controller
     {
         $status = $request->query('status'); // menunggu / diterima / ditolak
 
-        $query = Pengajuan::with('peserta') ->where('user_id', Auth::id())->latest();
+        $query = Pengajuan::with('peserta') ->where('user_id', Auth::id())->latest()->paginate(10)->withQueryString();;
 
         if (in_array($status, ['menunggu', 'diterima', 'ditolak'])) {
             $query->where('status', $status);

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Pengajuan;
 use App\Models\PesertaPengajuan;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -27,17 +28,24 @@ class PengajuanController extends Controller
 
         // validasi
         $request->validate([
-            'jenis_pengajuan' => 'required|in:Individu,Instansi',
-            'asal_instansi'   => 'required|string|max:255',
-            'surat_pengantar' => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
-
-            'nama_pengaju'    => 'required|array|min:1',
-            'nama_pengaju.*'  => 'required|string|max:255',
-            'jurusan'         => 'required|array|min:1',
-            'jurusan.*'       => 'required|string|max:255',
-            'no_hp'           => 'required|array|min:1',
-            'no_hp.*'         => 'required|string|max:20',
+            'jenis_pengajuan' => ['required', Rule::in(['Individu','Instansi'])],
+            'asal_instansi'   => ['required','string','max:255'],
+            'surat_pengantar' => ['required','file','mimes:pdf,jpg,jpeg,png','max:2048'],
+            'nama_pengaju'    => ['required','array'],
+            'nama_pengaju.*'  => ['required','string','max:255'],
+            'jurusan'         => ['required','array'],
+            'jurusan.*'       => ['required','string','max:255'],
+            'no_hp'           => ['required','array'],
+            'no_hp.*'         => ['required','string','max:20'],
         ]);
+
+        if ($request->jenis_pengajuan === 'Individu') {
+            $request->validate([
+                'nama_pengaju' => ['size:1'],
+                'jurusan'      => ['size:1'],
+                'no_hp'        => ['size:1'],
+            ]);
+        }
 
         // Simpan file setelah validasi
         $filePath = $request->file('surat_pengantar')->store('surat_pengantar', 'public');
@@ -73,7 +81,7 @@ class PengajuanController extends Controller
 
     public function riwayat()
     {
-        $pengajuans = Pengajuan::where('user_id', Auth::id())->latest()->get();
+        $pengajuans = Pengajuan::where('user_id', Auth::id())->latest()->paginate(10)->withQueryString();
 
         return view('user.pengajuan.riwayat', compact('pengajuans'));
     }

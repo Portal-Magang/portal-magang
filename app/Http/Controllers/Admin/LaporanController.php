@@ -12,7 +12,7 @@ class LaporanController extends Controller
     {
         $tahun = (int) ($request->get('tahun') ?? now()->year);
 
-        $dataLaporan = Pengajuan::with('user')->whereYear('created_at', $tahun)->latest()->get();
+        $dataLaporan = Pengajuan::with('user')->whereYear('created_at', $tahun)->latest()->paginate(10)->withQueryString();
 
         $totalTahunIni = $dataLaporan->count();
         

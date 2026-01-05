@@ -12,7 +12,7 @@ class RiwayatController extends Controller
     {
         $status = $request->query('status');
 
-        $query = Pengajuan::with(['user', 'peserta'])->whereIn('status', ['diterima', 'ditolak'])->latest();
+        $query = Pengajuan::with(['user', 'peserta'])->whereIn('status', ['diterima', 'ditolak'])->latest()->paginate(10)->withQueryString();
 
         if (in_array($status, ['diterima', 'ditolak'])) {
             $query->where('status', $status);
