@@ -31,4 +31,12 @@ class LaporanController extends Controller
 
         return view('admin.laporan.index', compact('tahun','stats','dataLaporan','rekapPerTahun'));
     }
+
+    public function cetakLaporan(Request $request)
+    {
+        $tahun = (int) ($request->get('tahun') ?? now()->year);
+        $laporanTahunan = Pengajuan::whereYear('created_at', $tahun)->with(['user','peserta'])->latest()->get();
+
+        return view('admin.laporan.cetak', compact('tahun','laporanTahunan'));
+    }
 }

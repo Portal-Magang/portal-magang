@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboard;
 use App\Http\Controllers\Admin\VerifikasiController;
 use App\Http\Controllers\Admin\RiwayatController;
+use App\Http\Controllers\Admin\LaporanController;
 use App\Http\Controllers\User\PengajuanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\User\RiwayatSuratController;
@@ -47,7 +48,8 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/pengajuan/{id}/surat/download', [PengajuanController::class, 'downloadSurat'])->name('admin.pengajuan.surat.download');
     Route::get('/riwayat', [RiwayatController::class, 'index'])->name('admin.riwayat.index');
     Route::get('/riwayat/{id}', [RiwayatController::class, 'detail'])->name('admin.riwayat.detail');
-    Route::get('/laporan', [\App\Http\Controllers\Admin\LaporanController::class, 'index'])->name('admin.laporan.index');
+    Route::get('/laporan', [LaporanController::class, 'index'])->name('admin.laporan.index');
+    Route::get('/laporan/cetak', [LaporanController::class, 'cetakLaporan'])->name('admin.laporan.cetak');
 });
 
 require __DIR__.'/auth.php';
