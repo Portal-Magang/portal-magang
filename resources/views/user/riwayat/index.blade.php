@@ -1,100 +1,63 @@
-@extends('layouts.admin')
+@extends('layouts.app')
 
 @section('content')
-<div class="min-h-screen bg-gradient-to-b from-slate-950 via-blue-950 to-black p-8">
-    <div class="max-w-6xl mx-auto">
+<div class="p-8 min-h-screen">
+    <!-- Page Header -->
+    <div class="mb-12">
+        <h1 class="text-4xl font-bold text-white text-center">Riwayat Pengajuan</h1>
+    </div>
 
-        <!-- Page Title -->
-        <h1 class="text-4xl font-bold text-white mb-8 text-center tracking-wide">
-            Riwayat Pengajuan PKL / Magang
-        </h1>
-
-        <!-- Filter Status -->
-        <div class="flex gap-4 mb-10 justify-center flex-wrap">
-            <a href="{{ url('/admin/riwayat') }}"
-               class="px-5 py-2 rounded-full text-sm font-semibold transition
-               {{ !request('status') ? 'bg-cyan-400 text-slate-900' : 'bg-slate-700 text-white hover:bg-slate-600' }}">
-                Semua
-            </a>
-
-            <a href="{{ url('/admin/riwayat?status=diterima') }}"
-               class="px-5 py-2 rounded-full text-sm font-semibold transition
-               {{ request('status') === 'diterima' ? 'bg-green-400 text-slate-900' : 'bg-slate-700 text-white hover:bg-slate-600' }}">
-                Diterima
-            </a>
-
-            <a href="{{ url('/admin/riwayat?status=ditolak') }}"
-               class="px-5 py-2 rounded-full text-sm font-semibold transition
-               {{ request('status') === 'ditolak' ? 'bg-red-400 text-slate-900' : 'bg-slate-700 text-white hover:bg-slate-600' }}">
-                Ditolak
-            </a>
-        </div>
-
-        <!-- List Container -->
-        <div class="bg-white/95 rounded-2xl shadow-xl overflow-hidden">
-
-            <!-- Header -->
-            <div class="grid grid-cols-12 px-6 py-4 bg-slate-100 text-slate-600 text-sm font-semibold">
-                <div class="col-span-3">Nama</div>
-                <div class="col-span-4">Instansi & Jurusan</div>
-                <div class="col-span-2">Tanggal</div>
-                <div class="col-span-2">Status</div>
-                <div class="col-span-1 text-right">Aksi</div>
-            </div>
-
-            <!-- Rows -->
-            @forelse($pengajuans as $pengajuan)
-                <div class="grid grid-cols-12 px-6 py-4 border-t hover:bg-slate-50 transition">
-
-                    <!-- Nama -->
-                    <div class="col-span-3">
-                        <p class="font-semibold text-slate-800">
-                            {{ $pengajuan->user->name }}
-                        </p>
+    <!-- Riwayat List -->
+    <div class="max-w-4xl mx-auto space-y-4">
+        @forelse($pengajuans as $pengajuan)
+            <div class="bg-white rounded-2xl p-6 flex items-center justify-between shadow-lg hover:shadow-xl transition-shadow">
+                <!-- Left Content -->
+                <div class="flex-1">
+                    <div class="flex items-center gap-4">
+                        <div>
+                            <!-- Name -->
+                            <p class="text-lg font-bold text-gray-800 mb-2">{{ $pengajuan->user->name }}</p>
+                            
+                            <!-- Institution and Major -->
+                            <div class="text-sm text-gray-600 space-y-1">
+                                <p><span class="font-semibold">Catatan Instansi:</span> {{ $pengajuan->catatan_admin }}</p>
+                                <p><span class="font-semibold">Diajukan Pada Tanggal:</span> {{ $pengajuan->created_at->translatedFormat('d F Y') }}</p>
+                            </div>
+                        </div>
                     </div>
+                </div>
 
-                    <!-- Instansi & Jurusan -->
-                    <div class="col-span-4 text-slate-600">
-                        {{ $pengajuan->asal_instansi }} <br>
-                        <span class="text-sm text-slate-500">
-                            {{ $pengajuan->jurusan }}
+                <!-- Status Badge -->
+                <div>
+                    @if($pengajuan->status === 'diterima')
+                        <span class="inline-block px-6 py-2 bg-cyan-300 text-gray-900 font-bold rounded-full text-sm">
+                            Diterima
                         </span>
-                    </div>
-
-                    <!-- Tanggal -->
-                    <div class="col-span-2 text-slate-600">
-                        {{ $pengajuan->created_at->translatedFormat('d F Y') }}
-                    </div>
-
-                    <!-- Status -->
-                    <div class="col-span-2">
-                        @if ($pengajuan->status === 'diterima')
-                            <span class="inline-block bg-green-100 text-green-700 text-sm font-semibold px-3 py-1 rounded-full">
-                                Diterima
-                            </span>
-                        @elseif ($pengajuan->status === 'ditolak')
-                            <span class="inline-block bg-red-100 text-red-700 text-sm font-semibold px-3 py-1 rounded-full">
-                                Ditolak
-                            </span>
-                        @endif
-                    </div>
-
-                    <!-- Aksi -->
-                    <div class="col-span-1 text-right">
-                        <a href="{{ url('/admin/riwayat/' . $pengajuan->id) }}"
-                           class="inline-block bg-cyan-500 hover:bg-cyan-600 text-white text-sm font-semibold px-4 py-2 rounded-lg transition">
-                            Detail
-                        </a>
-                    </div>
+                    @elseif($pengajuan->status === 'ditolak')
+                        <span class="inline-block px-6 py-2 bg-red-400 text-white font-bold rounded-full text-sm">
+                            Ditolak
+                        </span>
+                    @else
+                        <span class="inline-block px-6 py-2 bg-yellow-300 text-gray-900 font-bold rounded-full text-sm">
+                            Menunggu
+                        </span>
+                    @endif
                 </div>
-            @empty
-                <!-- Empty State -->
-                <div class="text-center py-16 text-slate-500">
-                    Tidak ada data riwayat pengajuan
-                </div>
-            @endforelse
-
-        </div>
+            </div>
+        @empty
+            <div class="text-center py-12">
+                <p class="text-white text-lg">Belum ada riwayat pengajuan</p>
+            </div>
+        @endforelse
     </div>
 </div>
+
+<style>
+    @media (max-width: 768px) {
+        .max-w-4xl {
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+    }
+</style>
 @endsection
