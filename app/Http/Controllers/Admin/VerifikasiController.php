@@ -19,7 +19,7 @@ class VerifikasiController extends Controller
     // detail pengajuan
     public function detail($id)
     {
-        $pengajuan = Pengajuan::with('user')->findOrFail($id);
+        $pengajuan = Pengajuan::findOrFail($id);
         return view('admin.verifikasi.detail', compact('pengajuan'));
     }
 

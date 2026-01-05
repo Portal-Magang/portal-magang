@@ -153,7 +153,7 @@
 
                     {{-- PASSWORD --}}
                     <div>
-                        <p class="text-sm text-gray-600"> Opsional. Silakan isi apabila ingin mengganti password. </p>
+                        <p class="text-sm text-gray-600"> Opsional. Isi kalau ingin mengganti password. </p>
                         <hr>
                         <label class="text-sm font-medium text-gray-700">Password Saat Ini</label>
                         <input type="password" name="current_password"
