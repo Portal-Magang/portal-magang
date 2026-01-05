@@ -147,12 +147,10 @@
                     </div>
                 </div>
 
-                <!-- Submit Button -->
-                <div class="mt-10 flex justify-center">
-                    <button 
-                        type="submit"
-                        class="bg-cyan-400 hover:bg-cyan-500 text-white font-bold py-3 px-12 rounded-full text-lg transition-all duration-200 transform hover:scale-105 shadow-lg"
-                    >
+                <!-- Submit -->
+                <div class="mt-10 text-center">
+                    <button type="submit"
+                        class="bg-cyan-400 hover:bg-cyan-500 text-white font-bold px-12 py-3 rounded-full">
                         Kirim
                     </button>
                 </div>
