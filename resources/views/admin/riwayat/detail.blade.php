@@ -2,77 +2,109 @@
 
 @section('content')
 <div class="min-h-screen bg-gradient-to-b from-slate-950 via-blue-950 to-black p-8">
-    <div class="max-w-4xl mx-auto">
+    <div class="max-w-6xl mx-auto">
 
         <!-- Title -->
-        <h1 class="text-4xl font-bold text-white mb-12 text-center tracking-wide">Detail Riwayat Pengajuan</h1>
+        <h1 class="text-4xl font-bold text-white mb-10 text-center">
+            Detail Riwayat Pengajuan PKL / Magang
+        </h1>
 
-        <!-- Card Detail -->
-        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+        <!-- INFO PENGAJUAN -->
+        <div class="bg-white/95 rounded-2xl shadow-xl mb-8 overflow-hidden">
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-gray-700">
-
+            <div class="grid grid-cols-2 gap-6 px-8 py-6 text-sm text-slate-700">
                 <div>
-                    <p class="text-sm text-gray-500 font-semibold uppercase tracking-wide">Nama</p>
-                    <p class="font-semibold text-lg mt-1">{{ $pengajuan->user->name }}</p>
+                    <p class="text-slate-500">Email Pengaju</p>
+                    <p class="font-semibold">{{ $pengajuan->user->email }}</p>
                 </div>
 
                 <div>
-                    <p class="text-sm text-gray-500 font-semibold uppercase tracking-wide">Email</p>
-                    <p class="font-semibold text-lg mt-1">{{ $pengajuan->user->email }}</p>
+                    <p class="text-slate-500">Asal Instansi</p>
+                    <p class="font-semibold">{{ $pengajuan->asal_instansi }}</p>
                 </div>
 
                 <div>
-                    <p class="text-sm text-gray-500 font-semibold uppercase tracking-wide">Asal Instansi</p>
-                    <p class="font-semibold text-lg mt-1">{{ $pengajuan->asal_instansi }}</p>
+                    <p class="text-slate-500">Tanggal Pengajuan</p>
+                    <p class="font-semibold">
+                        {{ $pengajuan->created_at->translatedFormat('d F Y') }}
+                    </p>
                 </div>
 
                 <div>
-                    <p class="text-sm text-gray-500 font-semibold uppercase tracking-wide">Jurusan</p>
-                    <p class="font-semibold text-lg mt-1">{{ $pengajuan->jurusan }}</p>
-                </div>
-
-                <div>
-                    <p class="text-sm text-gray-500 font-semibold uppercase tracking-wide">No. HP</p>
-                    <p class="font-semibold text-lg mt-1">{{ $pengajuan->no_hp }}</p>
-                </div>
-
-                <div>
-                    <p class="text-sm text-gray-500 font-semibold uppercase tracking-wide">Surat Pengantar</p>
+                    <p class="text-slate-500">Surat Pengantar</p>
                     <a href="{{ route('pengajuan.surat.preview', $pengajuan->id) }}"
                        target="_blank"
-                       class="inline-flex items-center gap-2 text-blue-600 hover:underline font-semibold text-lg mt-1">
+                       class="text-cyan-600 font-semibold hover:underline">
                         📄 Lihat Surat
                     </a>
                 </div>
 
-                <!-- Add status badge -->
+                <!-- STATUS -->
                 <div>
-                    <p class="text-sm text-gray-500 font-semibold uppercase tracking-wide">Status</p>
-                    <div class="mt-2">
-                        @if($pengajuan->status === 'diterima')
-                            <span class="bg-green-400 text-slate-900 font-bold py-2 px-4 rounded-lg text-sm inline-block">
-                                Diterima
-                            </span>
-                        @else($pengajuan->status === 'ditolak')
-                            <span class="bg-red-400 text-white font-bold py-2 px-4 rounded-lg text-sm inline-block">
-                                Ditolak
-                            </span>
-                        @endif
-                    </div>
+                    <p class="text-slate-500">Status</p>
+                    @if ($pengajuan->status === 'diterima')
+                        <span class="inline-block mt-1 bg-green-400 text-slate-900 font-bold px-4 py-2 rounded-lg text-sm">
+                            Diterima
+                        </span>
+                    @elseif ($pengajuan->status === 'ditolak')
+                        <span class="inline-block mt-1 bg-red-400 text-white font-bold px-4 py-2 rounded-lg text-sm">
+                            Ditolak
+                        </span>
+                    @endif
                 </div>
 
-                <!-- Add catatan admin if exists -->
-                @if($pengajuan->catatan_admin)
-                <div class="md:col-span-2">
-                    <p class="text-sm text-gray-500 font-semibold uppercase tracking-wide">Catatan Admin</p>
-                    <p class="font-semibold text-lg mt-1 text-gray-600">{{ $pengajuan->catatan_admin }}</p>
+                <!-- CATATAN ADMIN -->
+                @if ($pengajuan->catatan_admin)
+                <div class="col-span-2">
+                    <p class="text-slate-500">Catatan Admin</p>
+                    <p class="mt-1 font-semibold text-slate-600">
+                        {{ $pengajuan->catatan_admin }}
+                    </p>
                 </div>
                 @endif
             </div>
+
         </div>
 
-        <!-- Back Button -->
+        <!-- LIST PESERTA -->
+        <div class="bg-white/95 rounded-2xl shadow-xl overflow-hidden mb-10">
+
+            <!-- Header -->
+            <div class="grid grid-cols-12 px-6 py-4 bg-slate-100 text-slate-600 text-sm font-semibold">
+                <div class="col-span-1 text-center">No</div>
+                <div class="col-span-4">Nama</div>
+                <div class="col-span-4">Jurusan</div>
+                <div class="col-span-3">No. HP</div>
+            </div>
+
+            <!-- Rows -->
+            @forelse ($pengajuan->peserta as $index => $p)
+                <div class="grid grid-cols-12 px-6 py-4 border-t hover:bg-slate-50 transition">
+                    <div class="col-span-1 text-center text-slate-600">
+                        {{ $index + 1 }}
+                    </div>
+
+                    <div class="col-span-4 font-semibold text-slate-800">
+                        {{ $p->nama_pengaju }}
+                    </div>
+
+                    <div class="col-span-4 text-slate-600">
+                        {{ $p->jurusan }}
+                    </div>
+
+                    <div class="col-span-3 text-slate-600">
+                        {{ $p->no_hp }}
+                    </div>
+                </div>
+            @empty
+                <div class="text-center py-12 text-slate-500">
+                    Tidak ada data peserta
+                </div>
+            @endforelse
+
+        </div>
+
+        <!-- BACK BUTTON -->
         <div class="flex justify-end">
             <a href="{{ url('/admin/riwayat') }}"
                class="px-6 py-2 rounded-lg bg-cyan-400 text-slate-900 font-semibold hover:bg-cyan-500 transition">

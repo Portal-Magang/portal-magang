@@ -69,7 +69,7 @@
                                         class="w-full px-4 py-2 border rounded-xl">
                                 </div>
                                 <div>
-                                    <label class="block text-sm mb-1">Nomor Telepon / WhatsApp</label>
+                                    <label class="block text-sm mb-1">No HP / WA</label>
                                     <input type="text" name="no_hp[]" required
                                         class="w-full px-4 py-2 border rounded-xl">
                                 </div>
@@ -87,32 +87,10 @@
 
                     <!-- Surat Pengantar -->
                     <div>
-                        <label for="surat_pengantar" class="block text-gray-700 font-semibold mb-2">Surat Pengantar</label>
-                        <div class="relative">
-                            <input 
-                                type="file" 
-                                id="surat_pengantar"
-                                name="surat_pengantar" 
-                                accept=".pdf,.jpg,.jpeg,.png"
-                                required
-                                class="hidden"
-                            >
-                            <label 
-                                for="surat_pengantar"
-                                class="w-full px-6 py-3 border-2 border-dashed border-gray-300 rounded-xl text-center cursor-pointer hover:border-cyan-400 hover:bg-cyan-50 transition-colors duration-200 block"
-                            >
-                                <div id="fileName" class="text-gray-400">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mx-auto mb-2">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33A3 3 0 0116.5 19.5H6.75Z" />
-                                    </svg>
-                                    <span class="text-gray-600 font-medium">Pilih file atau drag & drop</span>
-                                    <p class="text-gray-400 text-xs mt-1">Format: PDF, JPG, JPEG, PNG (Max 2MB)</p>
-                                </div>
-                            </label>
-                        </div>
-                        @error('surat_pengantar')
-                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
-                        @enderror
+                        <label class="block font-semibold mb-2">Surat Pengantar</label>
+                        <input type="file" name="surat_pengantar" required
+                            accept=".pdf,.jpg,.jpeg,.png"
+                            class="w-full border rounded-xl px-4 py-2">
                     </div>
                 </div>
 
