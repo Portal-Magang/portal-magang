@@ -28,21 +28,19 @@
 
                 <!-- Form Fields -->
                 <div class="space-y-6">
-                    <!-- Nomor Telepon -->
+                    <!-- Jenis Pengajuan -->
                     <div>
-                        <label for="no_hp" class="block text-gray-700 font-semibold mb-2">Nomor Telepon</label>
-                        <input 
-                            type="tel" 
-                            id="no_hp"
-                            name="no_hp" 
-                            placeholder="Masukkan nomor telepon Anda"
-                            value="{{ old('no_hp') }}"
-                            required
-                            class="w-full px-6 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent text-gray-700 placeholder-gray-400"
-                        >
-                        @error('no_hp')
-                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
-                        @enderror
+                        <label class="block text-gray-700 font-semibold mb-3 text-lg">Jenis Pengajuan</label>
+                        <div class="grid grid-cols-2 gap-4">
+                            <label class="relative flex items-center p-4 border-2 rounded-xl cursor-pointer transition-all duration-200 hover:bg-cyan-50 border-gray-100 has-[:checked]:border-cyan-400 has-[:checked]:bg-cyan-50">
+                                <input type="radio" name="jenis_pengajuan" value="Individu" class="w-5 h-5 text-cyan-400 border-gray-300 focus:ring-cyan-400" {{ old('jenis_pengajuan', 'Individu') == 'Individu' ? 'checked' : '' }} onchange="toggleParticipantType()">
+                                <span class="ml-3 font-medium text-gray-700">Individu</span>
+                            </label>
+                            <label class="relative flex items-center p-4 border-2 rounded-xl cursor-pointer transition-all duration-200 hover:bg-cyan-50 border-gray-100 has-[:checked]:border-cyan-400 has-[:checked]:bg-cyan-50">
+                                <input type="radio" name="jenis_pengajuan" value="Instansi" class="w-5 h-5 text-cyan-400 border-gray-300 focus:ring-cyan-400" {{ old('jenis_pengajuan') == 'Instansi' ? 'checked' : '' }} onchange="toggleParticipantType()">
+                                <span class="ml-3 font-medium text-gray-700">Instansi</span>
+                            </label>
+                        </div>
                     </div>
 
                     <!-- Asal Instansi -->
@@ -77,6 +75,45 @@
                         @error('jurusan')
                             <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
                         @enderror
+                    </div>
+
+                    <!-- Dynamic participant section for Individual/Institutional -->
+                    <div id="participantSection">
+                        <div id="participantContainer" class="space-y-6">
+                            <!-- Template for participant fields -->
+                            <div class="participant-item p-6 bg-gray-50 rounded-2xl border border-gray-100 relative">
+                                <h3 class="participant-title font-bold text-gray-800 mb-4 flex items-center justify-between">
+                                    <span>Data Peserta</span>
+                                    <button type="button" class="remove-participant hidden text-red-500 hover:text-red-700" onclick="removeParticipant(this)">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+                                        </svg>
+                                    </button>
+                                </h3>
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="block text-gray-600 text-sm font-medium mb-1">Nama Lengkap</label>
+                                        <input type="text" name="nama_pengaju[]" placeholder="Masukkan nama lengkap" required class="w-full px-5 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-cyan-400 outline-none transition-all">
+                                    </div>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="block text-gray-600 text-sm font-medium mb-1">Nomor Telepon / WA</label>
+                                            <input type="tel" name="no_hp[]" placeholder="Contoh: 08123456789" required class="w-full px-5 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-cyan-400 outline-none transition-all">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Button to add more participants for Institutional type -->
+                        <div id="addParticipantBtn" class="mt-4 hidden">
+                            <button type="button" onclick="addParticipant()" class="flex items-center text-cyan-500 font-semibold hover:text-cyan-600 transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd" />
+                                </svg>
+                                Tambah Peserta Lainnya
+                            </button>
+                        </div>
                     </div>
 
                     <!-- Surat Pengantar -->
@@ -183,6 +220,62 @@
         const event = new Event('change', { bubbles: true });
         fileInput.dispatchEvent(event);
     });
+
+    // Dynamic participant fields script
+    function toggleParticipantType() {
+        const type = document.querySelector('input[name="jenis_pengajuan"]:checked').value;
+        const addBtn = document.getElementById('addParticipantBtn');
+        const container = document.getElementById('participantContainer');
+        const items = container.getElementsByClassName('participant-item');
+        
+        if (type === 'Instansi') {
+            addBtn.classList.remove('hidden');
+        } else {
+            addBtn.classList.add('hidden');
+            // Keep only the first participant for Individual
+            while (items.length > 1) {
+                items[1].remove();
+            }
+            updateLabels();
+        }
+    }
+
+    function addParticipant() {
+        const container = document.getElementById('participantContainer');
+        const newItem = container.firstElementChild.cloneNode(true);
+        
+        // Reset inputs
+        newItem.querySelectorAll('input').forEach(input => input.value = '');
+        
+        // Show remove button
+        newItem.querySelector('.remove-participant').classList.remove('hidden');
+        
+        container.appendChild(newItem);
+        updateLabels();
+    }
+
+    function removeParticipant(btn) {
+        const item = btn.closest('.participant-item');
+        item.remove();
+        updateLabels();
+    }
+
+    function updateLabels() {
+        const items = document.querySelectorAll('.participant-item');
+        const type = document.querySelector('input[name="jenis_pengajuan"]:checked').value;
+        
+        items.forEach((item, index) => {
+            const title = item.querySelector('.participant-title span');
+            if (type === 'Instansi') {
+                title.innerText = `Data Peserta ke-${index + 1}`;
+            } else {
+                title.innerText = `Data Peserta`;
+            }
+        });
+    }
+
+    // Initialize state
+    document.addEventListener('DOMContentLoaded', toggleParticipantType);
 </script>
 
 @endsection
