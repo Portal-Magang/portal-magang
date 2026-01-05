@@ -28,7 +28,7 @@
 
     <!-- Stats Grid -->
     <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-        <div class="stat-card p-6">
+        <div class="stat-card p-4">
             <div class="flex items-center justify-between mb-4">
                 <span class="stat-label">Total Pengajuan</span>
                 <i class="fa-solid fa-file-invoice text-blue-400 text-2xl"></i>
@@ -37,7 +37,7 @@
             <div class="text-xs text-gray-500 mt-2">Seluruh data masuk tahun {{ $tahun }}</div>
         </div>
         
-        <div class="stat-card p-6 border-l-4 border-l-green-500">
+        <div class="stat-card p-4 border-l-4 border-l-green-500">
             <div class="flex items-center justify-between mb-4">
                 <span class="stat-label text-green-400">Diterima</span>
                 <i class="fa-solid fa-circle-check text-green-500 text-2xl"></i>
@@ -45,7 +45,7 @@
             <div class="stat-number">{{ $stats['diterima'] }}</div>
         </div>
 
-        <div class="stat-card p-6 border-l-4 border-l-red-500">
+        <div class="stat-card p-4 border-l-4 border-l-red-500">
             <div class="flex items-center justify-between mb-4">
                 <span class="stat-label text-red-400">Ditolak</span>
                 <i class="fa-solid fa-circle-xmark text-red-500 text-2xl"></i>
@@ -53,7 +53,7 @@
             <div class="stat-number">{{ $stats['ditolak'] }}</div>
         </div>
 
-        <div class="stat-card p-6 border-l-4 border-l-yellow-500">
+        <div class="stat-card p-4 border-l-4 border-l-yellow-500">
             <div class="flex items-center justify-between mb-4">
                 <span class="stat-label text-yellow-400">Menunggu</span>
                 <i class="fa-solid fa-clock text-yellow-500 text-2xl"></i>

@@ -2,37 +2,63 @@
 
 @section('content')
 <div class="min-h-screen bg-gradient-to-b from-slate-950 via-blue-950 to-black p-8">
-    <div class="max-w-5xl mx-auto">
-        <!-- Page Title -->
-        <h1 class="text-5xl font-bold text-white mb-16 text-center tracking-wide">List Pengajuan PKL/Magang</h1>
+    <div class="max-w-6xl mx-auto">
 
-        <!-- Pengajuan List Container -->
-        <div class="space-y-5">
+        <!-- Page Title -->
+        <h1 class="text-4xl font-bold text-white mb-12 text-center tracking-wide">
+            List Pengajuan PKL / Magang
+        </h1>
+
+        <!-- List Container -->
+        <div class="bg-white/95 rounded-2xl shadow-xl overflow-hidden">
+
+            <!-- Header -->
+            <div class="grid grid-cols-12 px-6 py-4 bg-slate-100 text-slate-600 text-sm font-semibold">
+                <div class="col-span-4">Nama</div>
+                <div class="col-span-4">Instansi & Jurusan</div>
+                <div class="col-span-3">Tanggal Pengajuan</div>
+                <div class="col-span-1 text-right">Aksi</div>
+            </div>
+
+            <!-- Rows -->
             @forelse($pengajuans as $pengajuan)
-                <!-- List Item Card -->
-                <div class="bg-white rounded-3xl px-8 py-6 flex items-center justify-between shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-101">
-                    <!-- Left Content -->
-                    <div class="flex-1">
-                        <div class="flex flex-col gap-1">
-                            <!-- Applicant Name -->
-                            <h2 class="text-slate-800 text-xl font-semibold">{{ $pengajuan->user->name }}</h2>
-                            <!-- Institution & Major -->
-                            <p><span class="font-semibold">Asal Instansi:</span> {{ $pengajuan->asal_instansi }} • {{ $pengajuan->jurusan }}</p>
-                            <p><span class="font-semibold">Diajukan Pada Tanggal:</span> {{ $pengajuan->created_at->translatedFormat('d F Y') }}</p>
-                        </div>
+                <div class="grid grid-cols-12 px-6 py-4 border-t hover:bg-slate-50 transition">
+
+                    <!-- Nama -->
+                    <div class="col-span-4">
+                        <p class="font-semibold text-slate-800">
+                            {{ $pengajuan->user->name }}
+                        </p>
                     </div>
-                    
-                    <!-- Detail Button -->
-                    <a href="/admin/verifikasi/{{ $pengajuan->id }}" class="ml-6 bg-cyan-400 hover:bg-cyan-500 text-slate-900 font-bold py-2 px-8 rounded-full transition-colors duration-200 whitespace-nowrap shadow-md hover:shadow-lg">
-                        Detail
-                    </a>
+
+                    <!-- Instansi & Jurusan -->
+                    <div class="col-span-4 text-slate-600">
+                        {{ $pengajuan->asal_instansi }} <br>
+                        <span class="text-sm text-slate-500">
+                            {{ $pengajuan->jurusan }}
+                        </span>
+                    </div>
+
+                    <!-- Tanggal -->
+                    <div class="col-span-3 text-slate-600">
+                        {{ $pengajuan->created_at->translatedFormat('d F Y') }}
+                    </div>
+
+                    <!-- Aksi -->
+                    <div class="col-span-1 text-right">
+                        <a href="{{ url('/admin/verifikasi/' . $pengajuan->id) }}"
+                           class="inline-block bg-cyan-500 hover:bg-cyan-600 text-white text-sm font-semibold px-4 py-2 rounded-lg transition">
+                            Detail
+                        </a>
+                    </div>
                 </div>
             @empty
                 <!-- Empty State -->
-                <div class="text-center py-20">
-                    <p class="text-gray-400 text-lg font-medium">Tidak ada pengajuan yang menunggu verifikasi</p>
+                <div class="text-center py-16 text-slate-500">
+                    Tidak ada pengajuan yang menunggu verifikasi
                 </div>
             @endforelse
+
         </div>
     </div>
 </div>
