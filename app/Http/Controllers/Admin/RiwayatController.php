@@ -12,13 +12,17 @@ class RiwayatController extends Controller
     {
         $status = $request->query('status');
 
-        $query = Pengajuan::with(['user', 'peserta'])->whereIn('status', ['diterima', 'ditolak'])->latest()->paginate(10)->withQueryString();
+        $query = Pengajuan::query()
+            ->with(['user', 'peserta'])
+            ->whereIn('status', ['diterima', 'ditolak']);
 
         if (in_array($status, ['diterima', 'ditolak'])) {
             $query->where('status', $status);
         }
 
-        $pengajuans = $query->get();
+        $pengajuans = $query->latest()
+            ->paginate(10)
+            ->withQueryString();
 
         return view('admin.riwayat.index', compact('pengajuans', 'status'));
     }

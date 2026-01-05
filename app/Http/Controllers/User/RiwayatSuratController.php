@@ -13,13 +13,17 @@ class RiwayatSuratController extends Controller
     {
         $status = $request->query('status'); // menunggu / diterima / ditolak
 
-        $query = Pengajuan::with('peserta') ->where('user_id', Auth::id())->latest()->paginate(10)->withQueryString();;
+        $query = Pengajuan::query()
+            ->with('peserta')
+            ->where('user_id', Auth::id());
 
         if (in_array($status, ['menunggu', 'diterima', 'ditolak'])) {
             $query->where('status', $status);
         }
 
-        $pengajuans = $query->get();
+        $pengajuans = $query->latest()
+            ->paginate(10)
+            ->withQueryString();
 
         return view('user.riwayat.index', compact('pengajuans', 'status'));
     }
