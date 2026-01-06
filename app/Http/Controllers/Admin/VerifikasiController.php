@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Pengajuan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class VerifikasiController extends Controller
 {
@@ -30,14 +31,22 @@ class VerifikasiController extends Controller
             'status' => 'required|in:diterima,ditolak',
             'catatan_admin' => 'nullable|required_if:status,ditolak|string',
         ],
+
         [
             'catatan_admin.required_if' => 'Catatan admin wajib diisi jika pengajuan ditolak.',
         ]);
 
-        $pengajuan = Pengajuan::with(['user', 'peserta'])->findOrFail($id);
+        $pengajuan = Pengajuan::findOrFail($id);
+
         $pengajuan->update(['status' => $request->status,'catatan_admin' => $request->catatan_admin,
         ]);
 
+        Cache::forget('admin:dashboard:counts');
+
+        $tahun = $pengajuan->created_at->year;
+        Cache::forget("admin:laporan:stats:$tahun");
+        Cache::forget("admin:laporan:rekapPerTahun");
+        
         return redirect('/admin/verifikasi')->with('success', 'Pengajuan berhasil diperbarui');
     }
 }
