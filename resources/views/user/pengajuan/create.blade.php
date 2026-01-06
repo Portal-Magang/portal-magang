@@ -75,19 +75,16 @@
                                     <input type="text" name="nama_pengaju[]" required
                                         class="w-full px-4 py-2 border rounded-xl">
                                 </div>
-
-                                <div class="grid grid-cols-2 gap-4">
-                                    <div>
+                                    <div class="mb-4">
                                         <label class="block text-sm mb-1">Jurusan</label>
                                         <input type="text" name="jurusan[]" required
                                             class="w-full px-4 py-2 border rounded-xl">
                                     </div>
-                                    <div>
+                                    <div class="mb-4">
                                         <label class="block text-sm mb-1">No Telepon / WhatsApp</label>
                                         <input type="text" name="no_hp[]" required
                                             class="w-full px-4 py-2 border rounded-xl">
                                     </div>
-                                </div>
                             </div>
 
                         </div>
@@ -121,7 +118,7 @@
                                         </svg>
 
                                         <span class="text-gray-600 font-medium">
-                                            Pilih file atau drag & drop
+                                            Pilih file
                                         </span>
 
                                         <p class="text-gray-400 text-xs mt-1">

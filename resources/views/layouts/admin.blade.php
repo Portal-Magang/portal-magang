@@ -126,8 +126,8 @@
 
 <body class="min-h-screen">
     <!-- BURGER BUTTON -->
-    <button id="burgerBtn" class="md:hidden fixed top-4 left-4 z-50 bg-white text-gray-700 p-2 rounded-lg shadow">
-        <i class="fa-solid fa-bars"></i>
+    <button id="burgerBtn" class="md:hidden fixed top-4 left-4 z-50 text-gray-700 p-2 rounded-lg shadow">
+        <i class="fa-solid fa-bars text-white text-2xl"></i>
     </button>
 
     <!-- OVERLAY -->

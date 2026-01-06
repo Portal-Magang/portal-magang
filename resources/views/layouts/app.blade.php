@@ -80,10 +80,10 @@
     </script>
 </head>
 
-<body class="min-h-screen">
+<body class="min-h-screen overflow-x-hidden">
     <!-- BURGER BUTTON -->
-    <button id="burgerBtn" class="fixed top-4 left-4 z-50 bg-white p-2 rounded-lg shadow-lg lg:hidden">
-        <i class="fa-solid fa-bars text-xl text-gray-800"></i>
+    <button id="burgerBtn" class="fixed top-4 left-4 z-50 p-2 lg:hidden">
+        <i class="fa-solid fa-bars text-xl text-gray-800 text-white text-2xl"></i>
     </button>
     <div id="overlay" class="fixed inset-0 bg-black bg-opacity-40 hidden z-30 lg:hidden">
     </div>
