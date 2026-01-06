@@ -54,14 +54,47 @@
             height: auto;
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function confirmLogout(form) {
+            event.preventDefault();
+
+            Swal.fire({
+                title: 'Yakin ingin logout?',
+                text: 'Sesi akan berakhir.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#dc2626',
+                cancelButtonColor: '#9ca3af',
+                confirmButtonText: 'Ya',
+                cancelButtonText: 'Batal',
+                reverseButtons: true,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+
+            return false;
+        }
+    </script>
 </head>
 
 <body class="min-h-screen">
+    <!-- BURGER BUTTON -->
+    <button id="burgerBtn" class="fixed top-4 left-4 z-50 bg-white p-2 rounded-lg shadow-lg lg:hidden">
+        <i class="fa-solid fa-bars text-xl text-gray-800"></i>
+    </button>
+    <div id="overlay" class="fixed inset-0 bg-black bg-opacity-40 hidden z-30 lg:hidden">
+    </div>
 
     <div class="flex">
 
         <!-- SIDEBAR -->
-        <aside class="sidebar w-56 p-8">
+        <aside id="sidebar" class="sidebar fixed lg:static top-0 left-0 w-56 p-8
+           transform -translate-x-full lg:translate-x-0
+           transition-transform duration-300 z-40">
+
             <!-- Logo -->
             <div class="mb-12">
                 <img src="{{ asset('asset/logo.png') }}" alt="Diskominfostaper" class="logo">
@@ -96,20 +129,37 @@
             <hr class="my-4">
 
             <!-- LOGOUT (WAJIB POST) -->
-            <form action="{{ route('logout') }}" method="POST" onsubmit="return confirm('Yakin ingin logout?')">
+            <form action="{{ route('logout') }}" method="POST" onsubmit="return confirmLogout(this)">
                 @csrf
                 <button type="submit" class="nav-link w-full flex items-center gap-2 px-3 py-2.5 rounded-lg
-                    font-medium text-red-600 hover:text-white hover:bg-red-600">
+        font-medium text-red-600 hover:text-white hover:bg-red-600 transition">
                     <i class="fa-solid fa-arrow-right-from-bracket"></i>
                     <span class="text-sm">Logout</span>
                 </button>
             </form>
+
         </aside>
         <!-- MAIN CONTENT -->
         <main class="flex-1 p-8">
             @yield('content')
         </main>
     </div>
+    <script>
+        const burgerBtn = document.getElementById('burgerBtn');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+
+        burgerBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('-translate-x-full');
+            overlay.classList.toggle('hidden');
+        });
+
+        overlay.addEventListener('click', () => {
+            sidebar.classList.add('-translate-x-full');
+            overlay.classList.add('hidden');
+        });
+    </script>
+
 </body>
 
 </html>
