@@ -74,15 +74,69 @@
             width: 150px;
             height: auto;
         }
+
+        /* BURGER + RESPONSIVE SIDEBAR */
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                left: -100%;
+                top: 0;
+                width: 14rem;
+                /* w-56 */
+                z-index: 50;
+                transition: left 0.3s ease;
+            }
+
+            .sidebar.show {
+                left: 0;
+            }
+
+            @media (max-width: 768px) {
+                .sidebar-overlay.show {
+                    display: block;
+                }
+            }
+
+        }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function confirmLogout(form) {
+            event.preventDefault();
+
+            Swal.fire({
+                title: 'Yakin ingin logout?',
+                text: 'Sesi akan berakhir.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#dc2626',
+                cancelButtonColor: '#9ca3af',
+                confirmButtonText: 'Ya',
+                cancelButtonText: 'Batal',
+                reverseButtons: true,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+            return false;
+        }
+    </script>
 </head>
 
 <body class="min-h-screen">
+    <!-- BURGER BUTTON -->
+    <button id="burgerBtn" class="md:hidden fixed top-4 left-4 z-50 bg-white text-gray-700 p-2 rounded-lg shadow">
+        <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <!-- OVERLAY -->
+    <div id="sidebarOverlay" class="sidebar-overlay hidden fixed inset-0 bg-black/50 z-40 md:hidden"></div>
 
     {{-- Sidebar / Navbar --}}
     <div class="flex">
         {{-- Sidebar --}}
-        <div class="sidebar w-56 p-8 flex flex-col min-h-screen">
+        <div id="sidebar" class="sidebar w-56 p-8 flex flex-col min-h-screen">
 
             <!-- Logo -->
             <div class="mb-12">
@@ -104,7 +158,6 @@
                     <span class="text-sm">Verifikasi Surat</span>
                 </a>
 
-
                 <a href="{{ url('/admin/riwayat') }}" class="nav-link flex items-center gap-2 px-3 py-2.5 rounded-lg font-medium text-gray-700
    {{ request()->is('admin/riwayat*') ? 'active' : '' }}">
                     <i class="fa-solid fa-rotate-left"></i>
@@ -125,15 +178,15 @@
                 <hr class="my-4">
 
                 <!-- LOGOUT -->
-                <form action="{{ route('logout') }}" method="POST" onsubmit="return confirm('Yakin ingin logout?')">
+                <form action="{{ route('logout') }}" method="POST" onsubmit="return confirmLogout(this)">
                     @csrf
                     <button type="submit" class="w-full flex items-center gap-2 px-3 py-2.5 rounded-lg
-                   font-medium text-red-600
-                   hover:bg-red-600 hover:text-white transition">
+        font-medium text-red-600 hover:bg-red-600 hover:text-white transition">
                         <i class="fa-solid fa-arrow-right-from-bracket"></i>
                         <span class="text-sm">Logout</span>
                     </button>
                 </form>
+
             </div>
         </div>
         {{-- MAIN CONTENT --}}
@@ -141,6 +194,22 @@
             @yield('content') {{-- 🔴 INI WAJIB --}}
         </main>
     </div>
+    <script>
+        const burgerBtn = document.getElementById('burgerBtn');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+
+        burgerBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('show');
+            overlay.classList.toggle('show');
+        });
+
+        overlay.addEventListener('click', () => {
+            sidebar.classList.remove('show');
+            overlay.classList.remove('show');
+        });
+    </script>
+
 </body>
 
 </html>

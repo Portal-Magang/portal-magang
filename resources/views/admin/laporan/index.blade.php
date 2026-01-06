@@ -50,6 +50,12 @@
     <!-- TABLE -->
     <div class="bg-white/5 rounded-2xl border border-white/10 overflow-hidden">
 
+        <a href="{{ route('admin.laporan.cetak', ['tahun' => $tahun]) }}"
+   target="_blank"
+   class="text-gray-300 hover:text-white flex items-center gap-2 text-sm bg-white/10 px-4 py-2 rounded-lg transition">
+    <i class="fa-solid fa-print"></i> Cetak Laporan
+</a>
+
         <div class="overflow-x-auto">
             <table class="w-full text-left">
                 <thead>
@@ -74,9 +80,7 @@
 
                             <!-- NAMA PESERTA -->
                             <td class="px-6 py-4 font-medium text-white">
-                                @foreach($item->peserta as $p)
-                                    {{ $p->nama_pengaju }}@if(!$loop->last), @endif
-                                @endforeach
+                                    {{ $item->user->username}}
                             </td>
 
                             <td class="px-6 py-4">
