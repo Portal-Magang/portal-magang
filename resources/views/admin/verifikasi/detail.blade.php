@@ -50,7 +50,7 @@
                 <div class="col-span-1 text-center">No</div>
                 <div class="col-span-4">Nama</div>
                 <div class="col-span-4">Jurusan</div>
-                <div class="col-span-3">No. HP</div>
+                <div class="col-span-3">No. Telepon / whatsApp</div>
             </div>
 
             <!-- Rows -->
