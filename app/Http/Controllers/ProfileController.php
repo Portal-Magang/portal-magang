@@ -8,10 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
-use PHPUnit\Metadata\WithoutErrorHandler;
 
 class ProfileController extends Controller
 {
@@ -25,6 +23,7 @@ class ProfileController extends Controller
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
         $user = $request->user();
+
         $user->name = $request->validated('name');
 
         if ($request->hasFile('photo_profile')) {
@@ -36,34 +35,21 @@ class ProfileController extends Controller
         }
 
         if ($request->filled('password')) {
-
-            $request->validate([
-                'currenzt_password' => ['required'],
-                'password' => ['required','confirmed', Password::min(8)->letters()->numbers()->symbols()],
-            ]);
-
-            if (!Hash::check($request->current_password, $user->password )){
-                return back() -> withErrors (['current_password' => 'password tidak sesuai'])->WithInput();
-            }
-            
             $user->password = Hash::make($request->password);
         }
-        
+
         $user->save();
-        
-            return Redirect::route('profile.edit')->with('success', 'Profil berhasil diperbarui.');
-        }
+
+        return Redirect::route('profile.edit')->with('success', 'Profil berhasil diperbarui.');
+    }
 
     public function destroy(Request $request): RedirectResponse
     {
-        $request->validateWithBag('userDeletion', [
-            'password' => ['required', 'current_password'],
-        ]);
+        $request->validateWithBag('userDeletion', ['password' => ['required', 'current_password'],]);
 
         $user = $request->user();
 
         Auth::logout();
-
         $user->delete();
 
         $request->session()->invalidate();
