@@ -62,7 +62,7 @@
                     <tr class="bg-white/5 text-gray-400 text-xs uppercase">
                         <th class="px-6 py-4">No</th>
                         <th class="px-6 py-4">Tanggal</th>
-                        <th class="px-6 py-4">Nama Peserta</th>
+                        <th class="px-6 py-4">Nama Pengaju</th>
                         <th class="px-6 py-4">Instansi</th>
                         <th class="px-6 py-4">Jurusan</th>
                         <th class="px-6 py-4 text-center">Status</th>

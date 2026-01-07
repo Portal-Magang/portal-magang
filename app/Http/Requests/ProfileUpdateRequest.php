@@ -28,6 +28,10 @@ class ProfileUpdateRequest extends FormRequest
         return [
             'current_password.required_with' => 'Password saat ini wajib diisi.',
             'current_password.current_password' => 'Password saat ini tidak sesuai.',
+            'password.min' => 'Password minimal 8 karakter.',
+            'password.letters' => 'Password harus berupa kombinasi huruf, angka, dan simbol.',
+            'password.numbers' => 'Password harus berupa kombinasi huruf, angka, dan simbol.',
+            'password.symbols' => 'Password harus berupa kombinasi huruf, angka, dan simbol.',
             'password.confirmed' => 'Konfirmasi password tidak sesuai.',
         ];
     }
