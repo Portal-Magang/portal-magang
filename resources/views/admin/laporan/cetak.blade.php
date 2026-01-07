@@ -70,7 +70,7 @@
             <tr>
                 <th width="5%">No</th>
                 <th width="15%">Tanggal</th>
-                <th width="20%">Nama Pengaju</th>
+                <th width="20%">Nama Peserta</th>
                 <th width="25%">Instansi / Sekolah</th>
                 <th width="20%">Jurusan</th>
                 <th width="15%">Status</th>
