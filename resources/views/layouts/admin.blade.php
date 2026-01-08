@@ -182,7 +182,7 @@
                 <form action="{{ route('logout') }}" method="POST" onsubmit="return confirmLogout(this)">
                     @csrf
                     <button type="submit" class="w-full flex items-center gap-2 px-3 py-2.5 rounded-lg
-        font-medium text-red-600 hover:bg-red-600 hover:text-white transition">
+                    font-medium text-red-600 hover:bg-red-600 hover:text-white transition">
                         <i class="fa-solid fa-arrow-right-from-bracket"></i>
                         <span class="text-sm">Logout</span>
                     </button>

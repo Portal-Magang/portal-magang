@@ -1,63 +1,72 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="p-8 min-h-screen">
+<div class="p-4 sm:p-8 min-h-screen">
     <!-- Page Header -->
-    <div class="mb-12">
-        <h1 class="text-4xl font-bold text-white text-center">Riwayat Pengajuan</h1>
+    <div class="mb-8 sm:mb-12">
+        <h1 class="text-2xl sm:text-4xl font-bold text-white text-center">
+            Riwayat Pengajuan
+        </h1>
     </div>
 
     <!-- Riwayat List -->
     <div class="max-w-4xl mx-auto space-y-4">
         @forelse($pengajuans as $pengajuan)
-            <div class="bg-white rounded-2xl p-6 flex items-center justify-between shadow-lg hover:shadow-xl transition-shadow">
+            <div class="bg-white rounded-2xl p-4 sm:p-6
+                        flex flex-col sm:flex-row
+                        sm:items-center sm:justify-between
+                        gap-4
+                        shadow-lg hover:shadow-xl transition-shadow">
+
                 <!-- Left Content -->
                 <div class="flex-1">
-                    <div class="flex items-center gap-4">
-                        <div>
-                            <!-- Name -->
-                            <p class="text-lg font-bold text-gray-800 mb-2">{{ $pengajuan->user->name }}</p>
-                            
-                            <!-- Institution and Major -->
-                            <div class="text-sm text-gray-600 space-y-1">
-                                <p><span class="font-semibold">Catatan Instansi:</span> {{ $pengajuan->catatan_admin }}</p>
-                                <p><span class="font-semibold">Diajukan Pada Tanggal:</span> {{ $pengajuan->created_at->translatedFormat('d F Y') }}</p>
-                            </div>
-                        </div>
+                    <p class="text-base sm:text-lg font-bold text-gray-800 mb-2">
+                        {{ $pengajuan->user->name }}
+                    </p>
+                    
+                    <div class="text-sm text-gray-600 space-y-1">
+                        <p>
+                            <span class="font-semibold">Catatan Instansi:</span>
+                            {{ $pengajuan->catatan_admin }}
+                        </p>
+                        <p>
+                            <span class="font-semibold">Diajukan Pada Tanggal:</span>
+                            {{ $pengajuan->created_at->translatedFormat('d F Y') }}
+                        </p>
                     </div>
                 </div>
 
                 <!-- Status Badge -->
-                <div>
+                <div class="w-full sm:w-auto flex justify-center sm:justify-start">
                     @if($pengajuan->status === 'diterima')
-                        <span class="inline-block px-6 py-2 bg-cyan-300 text-gray-900 font-bold rounded-full text-sm">
+                        <span class="inline-block px-5 sm:px-6 py-2
+                                     bg-cyan-300 text-gray-900
+                                     font-bold rounded-full text-xs sm:text-sm">
                             Diterima
                         </span>
                     @elseif($pengajuan->status === 'ditolak')
-                        <span class="inline-block px-6 py-2 bg-red-400 text-white font-bold rounded-full text-sm">
+                        <span class="inline-block px-5 sm:px-6 py-2
+                                     bg-red-400 text-white
+                                     font-bold rounded-full text-xs sm:text-sm">
                             Ditolak
                         </span>
                     @else
-                        <span class="inline-block px-6 py-2 bg-yellow-300 text-gray-900 font-bold rounded-full text-sm">
+                        <span class="inline-block px-5 sm:px-6 py-2
+                                     bg-yellow-300 text-gray-900
+                                     font-bold rounded-full text-xs sm:text-sm">
                             Menunggu
                         </span>
                     @endif
                 </div>
+
             </div>
         @empty
             <div class="text-center py-12">
-                <p class="text-white text-lg">Belum ada riwayat pengajuan</p>
+                <p class="text-white text-base sm:text-lg">
+                    Belum ada riwayat pengajuan
+                </p>
             </div>
         @endforelse
     </div>
 </div>
-
-<style>
-    @media (max-width: 768px) {
-        .max-w-4xl {
-            padding-left: 1rem;
-            padding-right: 1rem;
-        }
-    }
-</style>
 @endsection

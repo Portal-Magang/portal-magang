@@ -34,10 +34,13 @@
             </div>
         </div>
 
-        <button onclick="openModal()"
-            class="px-6 py-2.5 bg-[#001B61] text-white rounded-xl font-semibold hover:bg-[#00133f] transition shadow">
-            ✏️ Edit Profil
-        </button>
+        <!-- BUTTON WRAPPER (RESPONSIVE) -->
+        <div class="flex justify-center sm:justify-start">
+            <button onclick="openModal()"
+                class="px-6 py-2.5 bg-[#001B61] text-white rounded-xl font-semibold hover:bg-[#00133f] transition shadow">
+                ✏️ Edit Profil
+            </button>
+        </div>
     </div>
 </div>
 
@@ -131,10 +134,9 @@
 
                     <i class="bx bx-hide absolute top-1/2 right-4 -translate-y-1/2
                             text-xl text-gray-500 cursor-pointer"
-                    onclick="togglePassword('confirmPassword', this)"></i>
+                        onclick="togglePassword('confirmPassword', this)"></i>
                 </div>
 
-                {{-- AMBIL ERROR DARI password.confirmed --}}
                 @if ($errors->has('password'))
                     <p class="text-sm text-red-600 mt-2">
                         {{ $errors->first('password') }}
@@ -155,7 +157,6 @@
     </div>
 </div>
 
-{{-- SCRIPT --}}
 <script>
     function openModal() {
         document.getElementById('editModal').classList.remove('hidden');

@@ -91,9 +91,8 @@
     <div class="flex">
 
         <!-- SIDEBAR -->
-        <aside id="sidebar" class="sidebar fixed lg:static top-0 left-0 w-56 p-8
-           transform -translate-x-full lg:translate-x-0
-           transition-transform duration-300 z-40">
+        <aside id="sidebar" class="sidebar fixed lg:static top-0 left-0 w-56 p-8 flex flex-col
+        transform -translate-x-full lg:translate-x-0 transition-transform duration-300 z-40">
 
             <!-- Logo -->
             <div class="mb-12">
@@ -126,17 +125,20 @@
 
             </nav>
             <!-- GARIS -->
-            <hr class="my-4">
+            <div class="mt-auto">
+                <hr class="my-4">
 
-            <!-- LOGOUT (WAJIB POST) -->
-            <form action="{{ route('logout') }}" method="POST" onsubmit="return confirmLogout(this)">
-                @csrf
-                <button type="submit" class="nav-link w-full flex items-center gap-2 px-3 py-2.5 rounded-lg
-        font-medium text-red-600 hover:text-white hover:bg-red-600 transition">
-                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
-                    <span class="text-sm">Logout</span>
-                </button>
-            </form>
+                <!-- LOGOUT -->
+                <form action="{{ route('logout') }}" method="POST" onsubmit="return confirmLogout(this)">
+                    @csrf
+                    <button type="submit" class="w-full flex items-center gap-2 px-3 py-2.5 rounded-lg
+                    font-medium text-red-600 hover:bg-red-600 hover:text-white transition">
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                        <span class="text-sm">Logout</span>
+                    </button>
+                </form>
+
+            </div>
 
         </aside>
         <!-- MAIN CONTENT -->
