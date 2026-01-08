@@ -106,9 +106,12 @@
                               text-xl text-gray-500 cursor-pointer"></i>
                 </div>
 
-                @error('password')
-                    <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
-                @enderror
+                 @if ($errors->has('password'))
+                    @php($msg = $errors->first('password'))
+                    @if (!str_contains($msg, 'Konfirmasi password'))
+                        <p class="text-sm text-red-600 mt-1">{{ $msg }}</p>
+                    @endif
+                @endif
             </div>
 
             <!-- Konfirmasi Password + Mata -->
@@ -132,9 +135,12 @@
                               text-xl text-gray-500 cursor-pointer"></i>
                 </div>
 
-                @error('password_confirmation')
-                    <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
-                @enderror
+                @if ($errors->has('password'))
+                    @php($msg = $errors->first('password'))
+                    @if (str_contains($msg, 'Konfirmasi password'))
+                        <p class="text-sm text-red-600 mt-1">{{ $msg }}</p>
+                    @endif
+                @endif
             </div>
 
             <!-- Actions -->
