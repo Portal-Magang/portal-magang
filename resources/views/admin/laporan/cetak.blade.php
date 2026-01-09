@@ -63,6 +63,7 @@
 <body onload="window.print()">
 
     <h1>LAPORAN PENGAJUAN SURAT</h1>
+    <!-- Display tahun correctly on print page -->
     <h2>Tahun {{ $tahun }}</h2>
 
     <table>
