@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Pengajuan;
+use App\Models\User;
+use App\Models\PesertaPengajuan;
 use Illuminate\Support\Facades\Cache;
 
 class DashboardController extends Controller
@@ -15,6 +17,9 @@ class DashboardController extends Controller
             'baru'     => Pengajuan::where('status', 'menunggu')->count(),
             'diterima' => Pengajuan::where('status', 'diterima')->count(),
             'ditolak'  => Pengajuan::where('status', 'ditolak')->count(),
+            'totalSurat' => Pengajuan::count(),
+            'totalUsers' => User::count(),
+            'totalPeserta' => PesertaPengajuan::count(),
             ];
         });
 

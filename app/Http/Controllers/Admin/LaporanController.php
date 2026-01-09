@@ -11,20 +11,14 @@ class LaporanController extends Controller
 {
     public function index(Request $request)
     {
-        $tahun = (int) ($request->get('tahun') ?? now()->year);
-        
-        $stats = Cache::remember("admin:laporan:status:$tahun", now()-> addMinutes(10), function() use($tahun){
-            $laporanTahunan = Pengajuan::whereYear('created_at', $tahun);
-            return [
-            'total'     => $laporanTahunan->count(),
-            'diterima'  => (clone $laporanTahunan)->where('status', 'diterima')->count(),
-            'ditolak'   => (clone $laporanTahunan)->where('status', 'ditolak')->count(),
-            'menunggu'  => (clone $laporanTahunan)->where('status', 'menunggu')->count(),
-        ];
-    });
+        $tahun = $request->filled('tahun') ? (int) $request->tahun : null;
 
         // Data tabel laporan
-        $dataLaporan = Pengajuan::with('user')->whereYear('created_at', $tahun)->latest()->paginate(10)->withQueryString();
+        $dataLaporan = Pengajuan::with('user')
+        ->when($tahun, fn ($q) => $q->whereYear('created_at', $tahun))
+        ->latest()
+        ->paginate(10)
+        ->withQueryString();
 
         // Rekap per tahun
         $rekapPerTahun = Cache::remember("admin:laporan:rekapPerTahun", now()->addMinutes(30), function(){
@@ -33,14 +27,19 @@ class LaporanController extends Controller
                 ->orderByRaw('YEAR(created_at) desc')
                 ->get();
         });
-        return view('admin.laporan.index', compact('tahun','stats','dataLaporan','rekapPerTahun'));
+        return view('admin.laporan.index', compact('tahun','dataLaporan','rekapPerTahun'));
     }
 
     public function cetakLaporan(Request $request)
     {
-        $tahun = (int) ($request->get('tahun') ?? now()->year);
-        $laporanTahunan = Pengajuan::whereYear('created_at', $tahun)->with(['user','peserta'])->latest()->get();
-
-        return view('admin.laporan.cetak', compact('tahun','laporanTahunan'));
-    }
+        $request->validate([
+            'tahun' => ['required', 'integer'],
+        ]);
+    
+        $tahun = (int) $request->tahun;
+    
+        $laporanTahunan = Pengajuan::whereYear('created_at', $tahun) ->with(['user', 'peserta'])->latest()->get();
+    
+        return view('admin.laporan.cetak', compact('tahun', 'laporanTahunan'));
+    }    
 }
