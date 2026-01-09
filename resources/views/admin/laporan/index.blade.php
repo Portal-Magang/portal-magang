@@ -15,7 +15,6 @@
             <label class="text-sm text-gray-300 ml-2">Pilih Tahun:</label>
             <select name="tahun" onchange="this.form.submit()"
                 class="bg-gray-800 text-white text-sm rounded-lg p-2 border-none">
-                <!-- Added option for semua tahun as default -->
                 <option value="">Semua Tahun</option>
                 @foreach($rekapPerTahun as $r)
                     <option value="{{ $r->tahun }}" {{ $tahun == $r->tahun ? 'selected' : '' }}>
@@ -26,23 +25,20 @@
         </form>
     </div>
 
-    <!-- Removed stat cards section from laporan page -->
-
     <!-- TABLE -->
     <div class="bg-white/5 rounded-2xl border border-white/10 overflow-hidden">
 
-        <!-- Updated cetak button - disabled if no tahun selected, enabled if tahun is selected -->
+        {{-- Cetak --}}
         @if($tahun)
-            <a href="{{ route('admin.laporan.cetak', ['tahun' => $tahun]) }}"
-       target="_blank"
-       class="text-gray-300 hover:text-white flex items-center gap-2 text-sm bg-white/10 px-4 py-2 rounded-lg transition">
-        <i class="fa-solid fa-print"></i> Cetak Laporan
-    </a>
+            <a href="{{ route('admin.laporan.cetak', ['tahun' => $tahun]) }}" target="_blank"
+               class="text-gray-300 hover:text-white flex items-center gap-2 text-sm bg-white/10 px-4 py-2 rounded-lg transition">
+                <i class="fa-solid fa-print"></i> Cetak Laporan
+            </a>
         @else
             <button disabled
-       class="text-gray-500 flex items-center gap-2 text-sm bg-gray-700/50 px-4 py-2 rounded-lg cursor-not-allowed">
-        <i class="fa-solid fa-print"></i> Cetak Laporan
-    </button>
+               class="text-gray-500 flex items-center gap-2 text-sm bg-gray-700/50 px-4 py-2 rounded-lg cursor-not-allowed">
+                <i class="fa-solid fa-print"></i> Cetak Laporan
+            </button>
             <p class="text-xs text-gray-400 px-4 pt-2">* Pilih tahun terlebih dahulu untuk mencetak laporan</p>
         @endif
 
@@ -62,42 +58,24 @@
                 <tbody class="divide-y divide-white/5">
                     @forelse($dataLaporan as $i => $item)
                         <tr class="hover:bg-white/5 text-gray-300 text-sm">
-                            <td class="px-6 py-4">{{ ($dataLaporan->currentPage() - 1) * 10 + $i + 1 }}</td>
-
                             <td class="px-6 py-4">
-                                {{ $item->created_at->translatedFormat('d M Y') }}
+                                {{ ($dataLaporan->currentPage() - 1) * 10 + $i + 1 }}
                             </td>
-
-                            <!-- NAMA PESERTA -->
-                            <td class="px-6 py-4 font-medium text-white">
-                                    {{ $item->user->username}}
-                            </td>
-
-                            <td class="px-6 py-4">
-                                {{ $item->asal_instansi }}
-                            </td>
-
-                            <!-- JURUSAN -->
+                            <td class="px-6 py-4">{{ $item->created_at->translatedFormat('d M Y') }}</td>
+                            <td class="px-6 py-4 font-medium text-white">{{ $item->user->username }}</td>
+                            <td class="px-6 py-4">{{ $item->asal_instansi }}</td>
                             <td class="px-6 py-4">
                                 @foreach($item->peserta as $p)
                                     {{ $p->jurusan }}@if(!$loop->last), @endif
                                 @endforeach
                             </td>
-
-                            <!-- STATUS -->
                             <td class="px-6 py-4 text-center">
                                 @if($item->status === 'diterima')
-                                    <span class="px-3 py-1 rounded-full text-xs bg-green-500/20 text-green-400">
-                                        Diterima
-                                    </span>
+                                    <span class="px-3 py-1 rounded-full text-xs bg-green-500/20 text-green-400">Diterima</span>
                                 @elseif($item->status === 'ditolak')
-                                    <span class="px-3 py-1 rounded-full text-xs bg-red-500/20 text-red-400">
-                                        Ditolak
-                                    </span>
+                                    <span class="px-3 py-1 rounded-full text-xs bg-red-500/20 text-red-400">Ditolak</span>
                                 @else
-                                    <span class="px-3 py-1 rounded-full text-xs bg-yellow-500/20 text-yellow-400">
-                                        Menunggu
-                                    </span>
+                                    <span class="px-3 py-1 rounded-full text-xs bg-yellow-500/20 text-yellow-400">Menunggu</span>
                                 @endif
                             </td>
                         </tr>
@@ -112,48 +90,70 @@
             </table>
         </div>
 
-        <!-- Pagination section -->
+        {{-- PAGINATION PINTAR --}}
+        @php
+            $current = $dataLaporan->currentPage();
+            $last = $dataLaporan->lastPage();
+            $start = max(1, $current - 2);
+            $end = min($last, $current + 2);
+        @endphp
+
         <div class="px-6 py-6 border-t border-white/10 flex items-center justify-between">
-            <!-- Pagination info text -->
             <div class="text-sm text-gray-400">
-                {{ $dataLaporan->firstItem() ?? 0 }} - {{ $dataLaporan->lastItem() ?? 0 }} dari {{ $dataLaporan->total() }}
+                {{ $dataLaporan->firstItem() ?? 0 }} - {{ $dataLaporan->lastItem() ?? 0 }}
+                dari {{ $dataLaporan->total() }}
             </div>
 
-            <!-- Pagination controls -->
             <div class="flex items-center gap-2">
-                <!-- Previous button -->
+
+                {{-- Prev --}}
                 @if($dataLaporan->onFirstPage())
-                    <button disabled class="p-2 rounded-lg bg-gray-700 text-gray-500 cursor-not-allowed">
+                    <button disabled class="p-2 rounded-lg bg-gray-700 text-gray-500">
                         <i class="fa-solid fa-chevron-left"></i>
                     </button>
                 @else
-                    <a href="{{ $dataLaporan->previousPageUrl() }}" class="p-2 rounded-lg bg-gray-700 text-gray-300 hover:bg-gray-600 transition">
+                    <a href="{{ $dataLaporan->previousPageUrl() }}" class="p-2 rounded-lg bg-gray-700 text-gray-300 hover:bg-gray-600">
                         <i class="fa-solid fa-chevron-left"></i>
                     </a>
                 @endif
 
-                <!-- Page numbers -->
-                <div class="flex items-center gap-1">
-                    @for($page = 1; $page <= $dataLaporan->lastPage(); $page++)
-                        @if($page == $dataLaporan->currentPage())
-                            <button class="px-4 py-2 rounded-full bg-cyan-500 text-white font-medium text-sm">
-                                {{ $page }}
-                            </button>
-                        @else
-                            <a href="{{ $dataLaporan->url($page) }}" class="px-4 py-2 rounded-full bg-gray-700 text-gray-300 hover:bg-gray-600 transition text-sm">
-                                {{ $page }}
-                            </a>
-                        @endif
-                    @endfor
-                </div>
+                {{-- First --}}
+                @if($start > 1)
+                    <a href="{{ $dataLaporan->url(1) }}"
+                       class="px-4 py-2 rounded-full bg-gray-700 text-gray-300 text-sm">1</a>
+                    <span class="px-2 text-gray-500">…</span>
+                @endif
 
-                <!-- Next button -->
+                {{-- Pages --}}
+                @for($i = $start; $i <= $end; $i++)
+                    @if($i == $current)
+                        <span class="px-4 py-2 rounded-full bg-cyan-500 text-white text-sm font-medium">
+                            {{ $i }}
+                        </span>
+                    @else
+                        <a href="{{ $dataLaporan->url($i) }}"
+                           class="px-4 py-2 rounded-full bg-gray-700 text-gray-300 hover:bg-gray-600 text-sm">
+                            {{ $i }}
+                        </a>
+                    @endif
+                @endfor
+
+                {{-- Last --}}
+                @if($end < $last)
+                    <span class="px-2 text-gray-500">…</span>
+                    <a href="{{ $dataLaporan->url($last) }}"
+                       class="px-4 py-2 rounded-full bg-gray-700 text-gray-300 text-sm">
+                        {{ $last }}
+                    </a>
+                @endif
+
+                {{-- Next --}}
                 @if($dataLaporan->hasMorePages())
-                    <a href="{{ $dataLaporan->nextPageUrl() }}" class="p-2 rounded-lg bg-gray-700 text-gray-300 hover:bg-gray-600 transition">
+                    <a href="{{ $dataLaporan->nextPageUrl() }}" class="p-2 rounded-lg bg-gray-700 text-gray-300 hover:bg-gray-600">
                         <i class="fa-solid fa-chevron-right"></i>
                     </a>
                 @else
-                    <button disabled class="p-2 rounded-lg bg-gray-700 text-gray-500 cursor-not-allowed">
+                    <button disabled class="p-2 rounded-lg bg-gray-700 text-gray-500">
                         <i class="fa-solid fa-chevron-right"></i>
                     </button>
                 @endif
@@ -161,5 +161,4 @@
         </div>
     </div>
 </div>
-
 @endsection
