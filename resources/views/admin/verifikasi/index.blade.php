@@ -63,54 +63,57 @@
                 </table>
             </div>
 
-            <!-- Pagination Info + Navigation -->
-        <div class="px-6 py-4 bg-slate-50 border-t border-slate-200
-                    flex flex-col sm:flex-row items-center justify-between gap-3
-                    text-sm text-slate-600">
+            <!-- Pagination section -->
+            <div class="px-6 py-6 border-t border-white/10 flex items-center justify-between">
+                <!-- Pagination info text -->
+                <div class="text-sm text-gray-400">
+                    {{ $pengajuans->firstItem() ?? 0 }} - {{ $pengajuans->lastItem() ?? 0 }} dari {{ $pengajuans->total() }}
+                </div>
 
-            <!-- Info jumlah data -->
-            <div>
-                {{ $pengajuans->firstItem() }} – {{ $pengajuans->lastItem() }}
-                dari {{ $pengajuans->total() }}
-            </div>
+                <!-- Pagination controls -->
+                <div class="flex items-center gap-2">
+                    <!-- Previous button -->
+                    @if($pengajuans->onFirstPage())
+                        <button disabled class="p-2 rounded-lg bg-slate-200 text-slate-400 cursor-not-allowed">
+                            <i class="fa-solid fa-chevron-left"></i>
+                        </button>
+                    @else
+                        <a href="{{ $pengajuans->previousPageUrl() }}"
+                        class="p-2 rounded-lg bg-white border hover:bg-slate-100 transition">
+                            <i class="fa-solid fa-chevron-left"></i>
+                        </a>
+                    @endif
 
-            <!-- Navigation -->
-            <div class="flex items-center gap-2">
+                    <!-- Page numbers -->
+                    <div class="flex items-center gap-1">
+                        @for($page = 1; $page <= $pengajuans->lastPage(); $page++)
+                            @if($page == $pengajuans->currentPage())
+                                <span class="px-4 py-2 rounded-full bg-cyan-500 text-white font-medium text-sm">
+                                    {{ $page }}
+                                </span>
+                            @else
+                                <a href="{{ $pengajuans->url($page) }}"
+                                class="px-4 py-2 rounded-full bg-white border hover:bg-slate-100 transition text-sm">
+                                    {{ $page }}
+                                </a>
+                            @endif
+                        @endfor
+                    </div>
 
-                <!-- Previous -->
-                @if ($pengajuans->onFirstPage())
-                    <span class="px-3 py-1 rounded-lg bg-slate-200 text-slate-400 cursor-not-allowed">
-                        <i class="fa-solid fa-chevron-left"></i>
-                    </span>
-                @else
-                    <a href="{{ $pengajuans->previousPageUrl() }}"
-                    class="px-3 py-1 rounded-lg bg-white border hover:bg-slate-100 transition">
-                        <i class="fa-solid fa-chevron-left"></i>
-                    </a>
-                @endif
-
-                <!-- Page Number -->
-                <span class="px-3 py-1 rounded-lg bg-cyan-500 text-white font-semibold">
-                    {{ $pengajuans->currentPage() }}
-                </span>
-
-                <!-- Next -->
-                @if ($pengajuans->hasMorePages())
-                    <a href="{{ $pengajuans->nextPageUrl() }}"
-                    class="px-3 py-1 rounded-lg bg-white border hover:bg-slate-100 transition">
-                        <i class="fa-solid fa-chevron-right"></i>
-                    </a>
-                @else
-                    <span class="px-3 py-1 rounded-lg bg-slate-200 text-slate-400 cursor-not-allowed">
-                        <i class="fa-solid fa-chevron-right"></i>
-                    </span>
-                @endif
-
+                    <!-- Next button -->
+                    @if($pengajuans->hasMorePages())
+                        <a href="{{ $pengajuans->nextPageUrl() }}"
+                        class="p-2 rounded-lg bg-white border hover:bg-slate-100 transition">
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </a>
+                    @else
+                        <button disabled class="p-2 rounded-lg bg-slate-200 text-slate-400 cursor-not-allowed">
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+                    @endif
+                </div>
             </div>
         </div>
-
-        </div>
-
     </div>
 </div>
 @endsection
