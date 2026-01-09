@@ -42,7 +42,7 @@
         </a>
 
         <!-- Total Pengajuan Card - Blue -->
-        <a class="stat-card p-8 border-t-4 border-blue-400 hover:border-blue-300 cursor-pointer">
+        <a class="stat-card p-8 border-t-4 border-blue-400">
             <p class="stat-label mb-4">
                 Total Pengajuan
             </p>
